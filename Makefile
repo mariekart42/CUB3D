@@ -1,28 +1,25 @@
-NAME = cub3d
-LIBFT = libft
-SRC =	sauce/main.c
+NAME	= cub3d
+LIBFT	= libft
 
-CFLAGS = -Wall -Wextra -Werror -Iincludes -g
-# DEBUG = -fsanitize=address
-LIBS = -Lmlx -lmlx -framework OpenGL -framework AppKit
+CFLAGS	= -Wall -Wextra -Werror
+MLX		= -Lmlx -lmlx -framework OpenGL -framework AppKit
+DEBUG	= -fsanitize=address
+
+SRC		= sauce/main.c
+SRC_PATH = sauce/
+OBJ_PATH = obj/
+INC_PATH = inc/
 
 all: $(NAME)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -Imlx -c $< -o $@
 
 OBJ = $(SRC:%.c=%.o)
 
 $(NAME): $(OBJ)
 	$(MAKE) -C MLX/
-	cd libft && make bonus; cd ../
-	$(CC) $(LIBFT)/libft.a $(OBJ) $(CFLAGS) $(LIBS)  -o $(NAME)
-	@echo "Everything compiled successfully"
-
-g:
-	$(MAKE) -C libft/
-	$(CC) $(SRC) $(CFLAGS) $(LIBS) $(LIBFT)/libft.a -o $(NAME)
-	@echo "my shit compiled successfully"
+	$(CC) $(OBJ) $(MLX) $(DEBUG) -o $(NAME)
 
 clean:
 	@$(RM) $(NAME)
