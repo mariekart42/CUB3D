@@ -5,7 +5,11 @@ CFLAGS	= -Wall -Wextra -Werror
 MLX		= -Lmlx -lmlx -framework OpenGL -framework AppKit
 DEBUG	= -fsanitize=address
 
+LIB_F = libft
+LIB = libft.a
+
 SRC		= sauce/main.c
+
 SRC_PATH = sauce/
 OBJ_PATH = obj/
 INC_PATH = inc/
@@ -21,11 +25,14 @@ $(NAME): $(OBJ)
 	$(MAKE) -C MLX/
 	$(CC) $(OBJ) $(MLX) $(DEBUG) -o $(NAME)
 
-clean:
-	@$(RM) $(NAME)
-	
 fclean: clean
-	@$(MAKE) clean -C MLX/
-	@$(MAKE) clean -C libft/
+	$(RM) $(NAME)
+	@make fclean -C $(LIB_F)
+
+clean:
+	$(RM) $(OBJ_PATH)
+	$(RM) sauce/*.o MLX/*.o
+	@make clean -C $(LIB_F)
+
 	
 re: fclean all
