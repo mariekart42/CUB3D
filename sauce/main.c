@@ -13,27 +13,30 @@ int32_t	destroy_window(t_hold *hold)
 	exit(0);
 }
 
+int32_t create_window(t_hold *hold)
+{
+    hold->mlx = mlx_init();
+    if (!hold->mlx)
+		return (0);
+    hold->mlx_win = mlx_new_window(hold->mlx, WIDHT, HIGHT, WINDOW_NAME);
+    if (!hold->mlx_win)
+	{
+		free(hold->mlx_win);
+		return (0);
+	}
+    mlx_key_hook(hold->mlx_win, keyboard_hook, hold);
+    mlx_hook(hold->mlx_win, 17, 0, destroy_window, hold);
+    return (1);
+}
+
 int main(void)
 {
     t_hold hold;
     write(1 ,"les gooooo\n", 11);
 
-    hold.mlx = mlx_init();
-    if (hold.mlx == NULL)
-		return (MLX_ERROR);
-    hold.mlx_win = mlx_new_window(hold.mlx, WIDHT, HIGHT, WINDOW_NAME);
-    if (hold.mlx_win == NULL)
-	{
-		free(hold.mlx_win);
-		return (MLX_ERROR);
-	}
-    mlx_key_hook(hold.mlx_win, keyboard_hook, &hold);
-    mlx_hook(hold.mlx_win, 17, 0, destroy_window, &hold);
+    if (!create_window(&hold))
+        return (MLX_ERROR);
     mlx_loop(hold.mlx);
-    printf("here\n");
-    // ft_putstr_fd("msg", 2);
-    // if (!hold.s_mlx->mlx)
-	// 	return (ft_error(0));
 
 }
 
@@ -42,7 +45,7 @@ int main(void)
 
 
 //! NEXT:
-// - open normal window
+// - draw grit
 
 
 //! GENERAL:
