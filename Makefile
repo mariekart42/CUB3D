@@ -22,7 +22,7 @@ all: $(NAME)
 OBJ = $(SRC:%.c=%.o)
 
 $(NAME): $(OBJ)
-	$(MAKE) -C MLX/
+	cd libft && $(MAKE)
 	$(CC) $(OBJ) $(MLX) $(DEBUG) -o $(NAME)
 
 fclean: clean
@@ -31,6 +31,7 @@ fclean: clean
 
 clean:
 	$(RM) $(OBJ_PATH)
+	cd libft && $(MAKE) clean
 	$(RM) sauce/*.o MLX/*.o
 	@make clean -C $(LIB_F)
 
