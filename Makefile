@@ -6,7 +6,7 @@ MLX		= -Lmlx -lmlx -framework OpenGL -framework AppKit
 DEBUG	= -fsanitize=address
 
 LIB_F = libft
-LIB = libft.a
+LIB = libft/libft.a
 
 SRC		= sauce/main.c
 
@@ -23,7 +23,7 @@ OBJ = $(SRC:%.c=%.o)
 
 $(NAME): $(OBJ)
 	cd libft && $(MAKE)
-	$(CC) $(OBJ) $(MLX) $(DEBUG) -o $(NAME)
+	$(CC) $(OBJ) $(MLX) $(DEBUG) $(LIB) -o $(NAME)
 
 fclean: clean
 	$(RM) $(NAME)

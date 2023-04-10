@@ -1,4 +1,5 @@
 # include "../inc/cub3d.h"
+# include "../libft/libft.h"
 
 int	keyboard_hook(int key)
 {
@@ -33,13 +34,12 @@ int main(void)
 {
     t_hold hold;
     write(1 ,"les gooooo\n", 11);
-
     if (!create_window(&hold))
         return (MLX_ERROR);
+    
     mlx_loop(hold.mlx);
 
 }
-
 
 
 
