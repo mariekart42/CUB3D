@@ -46,6 +46,10 @@ int32_t init_hold(t_hold *hold)
 {
     hold->x = 0;
     hold->y = 0;
+    hold->put_line->x[0] = 0;
+    hold->put_line->x[1] = 0;
+    hold->put_line->y[0] = 0;
+    hold->put_line->y[1] = 0;
     hold->mlx = mlx_init();
     if (!hold->mlx)
 		return (0);
@@ -56,12 +60,14 @@ int main(void)
 {
     write(1 ,"les gooooo\n", 11);
     t_hold hold;
-
+    
     if (!init_hold(&hold) || !create_window(&hold))
         return (MLX_ERROR);
     // draw_grit(&hold);
     mlx_key_hook(hold.mlx_win, key_hook, &hold);
     mlx_loop_hook(hold.mlx, update_dot_position, &hold);
+        draw_line_of_view_of_player(&hold);
+
     mlx_loop(hold.mlx);
 }
 
