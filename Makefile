@@ -3,12 +3,13 @@ LIBFT	= libft
 
 CFLAGS	= -Wall -Wextra -Werror
 MLX		= -Lmlx -lmlx -framework OpenGL -framework AppKit
-DEBUG	= -fsanitize=address
+# DEBUG	= -fsanitize=address
 
 LIB_F = libft
 LIB = libft/libft.a
 
-SRC		= sauce/main.c
+SRC		=	sauce/main.c \
+			sauce/delete_later.c
 
 SRC_PATH = sauce/
 OBJ_PATH = obj/
