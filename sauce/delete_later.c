@@ -24,19 +24,14 @@ void draw_grit(t_hold *hold)
     }
 }
 
-void init_put_line(t_hold *hold, double want_x, double want_y)
-{
-    hold->put_line->x[0] = hold->x;
-    hold->put_line->y[0] = hold->y;
-    hold->put_line->x[1] = want_x;
-    hold->put_line->y[1] = want_y;
-}
-
 void draw_line_of_view_of_player(t_hold *hold)
 {
-    printf("curr x: %d\ncurr y: %d\n", hold->x, hold->y);
-    init_put_line(hold, 124, 44);
-    put_line(hold);
-    // sleep(4);
-    // exit(0);
+    int angle = 20;
+    draw_line(hold->mlx, hold->mlx_win, hold->x+10, hold->y+10, (hold->x+10)+angle, hold->y+10+30, 0xbebebe);
+    angle = 30;
+    draw_line(hold->mlx, hold->mlx_win, hold->x+10, hold->y+10, (hold->x+10)+angle, hold->y+10+30, 0xbebebe);
+    angle = 40;
+    draw_line(hold->mlx, hold->mlx_win, hold->x+10, hold->y+10, (hold->x+10)+angle, hold->y+10+30, 0xbebebe);
+    angle = 50;
+    draw_line(hold->mlx, hold->mlx_win, hold->x+10, hold->y+10, (hold->x+10)+angle, hold->y+10+30, 0xbebebe);
 }
