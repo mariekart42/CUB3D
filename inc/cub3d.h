@@ -42,8 +42,13 @@ typedef struct s_hold
 	void	*mlx;
 	void	*mlx_win;
 	void	*img_ptr;
+	char	**map;
+	// int32_t cord_x;
+	// int32_t cord_y;
 	int32_t	x;
 	int32_t	y;
+	int32_t	next_x;
+	int32_t	next_y;
 
 }						t_hold;
 
@@ -62,5 +67,7 @@ int32_t	destroy_window(t_hold *hold);
 void draw_line_of_view_of_player(t_hold *hold);
 void init_put_line(t_hold *hold, double want_x, double want_y);
 void draw_grit(t_hold *hold);
+void draw_looking_direction(t_hold *hold);
+void put_cross(t_hold *hold,int x, int y);
 
 #endif
