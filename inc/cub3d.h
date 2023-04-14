@@ -5,6 +5,7 @@
 // ----------------------------------------------------------------------------
 //!		INCLUDES:
 #include <unistd.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 # include <stdbool.h>	// bool
@@ -30,11 +31,16 @@
 # define HIGHT 700
 # define MLX_ERROR -1
 # define ESCAPE 53
+# define SPEED 5
+# define ROTATION_SPEED 0.1
+# define STEP_SIZE 20
 // directions:
 # define LEFT 123
 # define RIGHT 124
-# define DOWN 125
-# define UP 126
+# define W 13
+# define A 0
+# define S 1
+# define D 2
 // ----------------------------------------------------------------------------
 //!		STRUCTS:
 typedef struct s_hold
@@ -47,9 +53,15 @@ typedef struct s_hold
 	// int32_t cord_y;
 	int32_t	x;
 	int32_t	y;
+	int32_t pr_x;
+	int32_t pr_y;
 	int32_t	next_x;
 	int32_t	next_y;
-
+	int32_t angle;
+	int32_t img_width;
+	int32_t img_height;
+	int32_t bits_per_pixel;
+	char	*img_data;
 }						t_hold;
 
 // ----------------------------------------------------------------------------
