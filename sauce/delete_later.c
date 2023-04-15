@@ -50,23 +50,11 @@ void draw_grit(t_hold *hold)
     }
 }
 
-// void draw_line_of_view_of_player(t_hold *hold)
-// {
-//     int angle = 20;
-//     draw_line(hold->mlx, hold->mlx_win, hold->x+10, hold->y+10, (hold->x+10)+angle, hold->y+10+30, 0xbebebe);
-//     angle = 30;
-//     draw_line(hold->mlx, hold->mlx_win, hold->x+10, hold->y+10, (hold->x+10)+angle, hold->y+10+30, 0xbebebe);
-//     angle = 40;
-//     draw_line(hold->mlx, hold->mlx_win, hold->x+10, hold->y+10, (hold->x+10)+angle, hold->y+10+30, 0xbebebe);
-//     angle = 50;
-//     draw_line(hold->mlx, hold->mlx_win, hold->x+10, hold->y+10, (hold->x+10)+angle, hold->y+10+30, 0xbebebe);
-// }
-
 void draw_looking_direction(t_hold *hold)
 {
     // draw_line(hold->mlx, hold->mlx_win, 10, 10, 100, 100, 0xbebebe);
-    printf("x: %d\ny: %d\nnext_x: %d\nnext_y: %d\n\n", hold->x, hold->y, hold->next_x, hold->next_y);
-    draw_line(hold->mlx, hold->mlx_win, hold->x, hold->y, hold->x, hold->y, 0xbebebe);
+    // printf("x: %d\ny: %d\nnext_x: %d\nnext_y: %d\n\n", hold->x, hold->y, hold->next_x, hold->next_y);
+    draw_line(hold->mlx, hold->mlx_win, hold->x, hold->y, hold->x_dir, hold->y_dirt , 0xbebebe);
     // hold->prev_x = hold->x;
     // hold->prev_y = hold->y;
 }

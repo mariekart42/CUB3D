@@ -29,6 +29,8 @@
 # define WINDOW_NAME "Das ist ein window lol"
 # define WIDHT 1000
 # define HIGHT 700
+#define PLAYER_POSITION_X 100
+#define PLAYER_POSITION_Y 200
 # define MLX_ERROR -1
 # define ESCAPE 53
 # define SPEED 5
@@ -41,6 +43,9 @@
 # define A 0
 # define S 1
 # define D 2
+
+// delete later
+#define LINE_LEN 20 // len between player and direction point
 // ----------------------------------------------------------------------------
 //!		STRUCTS:
 typedef struct s_hold
@@ -49,15 +54,24 @@ typedef struct s_hold
 	void	*mlx_win;
 	void	*img_ptr;
 	char	**map;
+
+	float x_dir;
+	float y_dir;
+	float angle;
+	bool go;
+// bool	forward;
+// bool	backward;
+// bool	left;
+// bool	right;
+
 	// int32_t cord_x;
 	// int32_t cord_y;
 	int32_t	x;
 	int32_t	y;
-	int32_t pr_x;
-	int32_t pr_y;
-	int32_t	next_x;
-	int32_t	next_y;
-	int32_t angle;
+	// int32_t pr_x;
+	// int32_t pr_y;
+	// int32_t	next_x;
+	// int32_t	next_y;
 	int32_t img_width;
 	int32_t img_height;
 	int32_t bits_per_pixel;

@@ -10,17 +10,17 @@ int32_t	destroy_window(t_hold *hold)
 int update_dot_position(t_hold *hold)
 {
     mlx_clear_window(hold->mlx, hold->mlx_win);
-    mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->img_ptr, hold->x - hold->img_width / 2, hold->y - hold->img_height / 2);
-    // hold->x += 1;
-    // hold->y += 10;
-    // draw_line(hold->mlx, hold->mlx_win, hold->x, hold->y, hold->x+200, hold->y+200, 0xffdab9);
-    // draw_line_of_view_of_player(hold);
-    // put_cross(hold, 200, 200);
-    // put_cross(hold, hold->x, hold->y);
-    // put_cross(hold, hold->next_x, hold->next_y);
+    if (hold->go == true)
+    {
+        mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->img_ptr, hold->x_dir - hold->img_width / 2, hold->y_dir - hold->img_height / 2);
+        hold->x = hold->x_dir;
+        hold->y = hold->y_dir;
+    }
+    else
+        mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->img_ptr, hold->x - hold->img_width / 2, hold->y - hold->img_height / 2);
+
     draw_looking_direction(hold);
-    // hold->prev_x = hold->x;
-    // hold->prev_y = hold->y;
+
     return (0);
 }
 
@@ -35,112 +35,63 @@ int32_t create_window(t_hold *hold)
     hold->bits_per_pixel = 8;
     hold->img_ptr = mlx_xpm_file_to_image(hold->mlx, "invader.xpm", &hold->x, &hold->y);
     hold->img_data = mlx_get_data_addr(hold->img_ptr, &hold->bits_per_pixel, &hold->img_width, &hold->img_height);
+    
+    // if firection is N:
+    hold->x_dir = hold->x;
+    hold->y_dir = hold->y + LINE_LEN;
     return (1);
 }
 
-// int key_hook(int keycode, t_hold *hold)
-// {
-//     if (keycode == ESCAPE)
-//         exit(0);
-//     // hold->pr_x = hold->x;
-//     // hold->pr_y = hold->y;
-//     if (keycode == A)
-//     {
-//         hold->x -= cos(hold->angle) * SPEED+STEP_SIZE;
-//         hold->y -= sin(hold->angle) * SPEED;
-//         // hold->x -= 10;
-//     // hold->next_x = hold->x-40;
-//     // hold->next_y = hold->y;
-//     }
-//     else if (keycode == D)
-//     {
-//         // hold->x += 10;
-//     // hold->next_x = hold->x +40;
-//     // hold->next_y = hold->y;
-//         hold->x += cos(hold->angle) * SPEED+STEP_SIZE;
-//         hold->y += sin(hold->angle) * SPEED;
-//     }
-//     else if (keycode == S)
-//     {
-//     //     hold->y += 10;
-//     // hold->next_y = hold->y +40;
-//     // hold->next_x = hold->x;
-//         // hold->x += (cos(hold->angle) * SPEED);
-//         // hold->y += sin(hold->angle) * SPEED+STEP_SIZE;
-//        hold->x += SPEED*cos(hold->angle);
-//         hold->y += SPEED+STEP_SIZE*sin(hold->angle);
-//     }
-//     else if (keycode == W)
-//     {
-//         hold->x -= SPEED*cos(hold->angle);
-//         hold->y -= SPEED+STEP_SIZE*sin(hold->angle);
-//     //     hold->y -= 10;
-//     // hold->next_y = hold->y -40;
-//     // hold->next_x = hold->x;
-//     }
-//     if (keycode == LEFT)
-//     {
-//         hold->angle += ROTATION_SPEED;
-//     //     // hold->y -= 10;
-//     //     // hold->x -= 10;
-//     // // hold->next_x = hold->next_x -5;
-//     // // hold->next_y = hold->next_y -10;
-//     // hold->next_x = hold->next_x *sin(2);
-//     // hold->next_y = hold->next_y *cos(2);
-//     }
-//     if (keycode == RIGHT)
-//     {
-//         hold->angle -= ROTATION_SPEED;
-//         // hold->y -= 10;
-//         // hold->x -= 10;
-//     // hold->next_x = hold->next_x *sin(2);
-//     // hold->next_y = hold->next_y *cos(2);
-//     }
-//     return (0);
-// }
 
-int key_hook(int keycode, t_hold *hold)
+int32_t key_hook(int keycode, t_hold *hold)
 {
     if (keycode == ESCAPE)
         exit(0);
-    // hold->angle = 0;
+    // hold->pr_x = hold->x;
+    // hold->pr_y = hold->y;
+        hold->go = false;
     if (keycode == A)
     {
-        hold->x += SPEED-(STEP_SIZE*cos(hold->angle));
-        hold->y += SPEED * sin(hold->angle);
-    }
-    else if (keycode == W)
-    {
-        hold->x += SPEED * sin(hold->angle);
-        hold->y += SPEED- (STEP_SIZE*cos(hold->angle));
-    }
-    else if (keycode == S)
-    {
-       hold->x += SPEED*sin(hold->angle);
-        hold->y += SPEED+(STEP_SIZE*cos(hold->angle));
+        hold->x_dir -= LINE_LEN;
+        hold->go = true;
     }
     else if (keycode == D)
     {
-        hold->x += SPEED+(STEP_SIZE * cos(hold->angle));
-        hold->y += SPEED * sin(hold->angle);
+        hold->x_dir += LINE_LEN;
+        hold->go = true;
+
+    }
+    else if (keycode == S)
+    {
+        hold->y_dir += LINE_LEN;
+        hold->go = true;
+
+    }
+    else if (keycode == W)
+    {
+        hold->y_dir -= LINE_LEN;
+        hold->go = true;
+
     }
     if (keycode == LEFT)
     {
-        hold->angle += ROTATION_SPEED;
+        // calc angle between x_axis and current line
+
+        hold->x_dir =cos(hold->angle) * LINE_LEN;
+        hold->y_dir =sin(hold->angle) * LINE_LEN;
+        hold->go = false;ھ 
     }
-    if (keycode == RIGHT)
-    {
-        hold->angle -= ROTATION_SPEED;
-    }
+    // if (keycode == RIGHT)
+    // {
+    //     hold->x_dir = cos(hold->angle) * LINE_LEN;
+    //     hold->y_dir = sin(hold->angle) * LINE_LEN;
+    //     hold->go = false;
+    // }
     return (0);
 }
 
 int32_t init_hold(t_hold *hold)
 {
-    // hold->x = 10;
-    // hold->y = 500;
-    // hold->next_x = 100;
-    // hold->next_y = 0;
     hold->mlx = mlx_init();
     if (!hold->mlx)
 		return (0);
@@ -179,7 +130,13 @@ void draw_line(void *mlx, void *win, int x0, int y0, int x1, int y1, int color)
     }
 }
 
-
+// direction vector is equal to the letter parsed from map file
+void init_direction_vector(t_hold *hold)
+{
+    // if letter N:
+    hold->x_dir = PLAYER_POSITION_X;
+    hold->y_dir = PLAYER_POSITION_Y - LINE_LEN;
+}
 
 int main(void)
 {
@@ -188,7 +145,9 @@ int main(void)
     
     if (!init_hold(&hold) || !create_window(&hold))
         return (MLX_ERROR);
-    hold.angle =5;
+
+    init_direction_vector(&hold);
+    hold.angle =0.5;
     // draw_grit(&hold);
     mlx_key_hook(hold.mlx_win, key_hook, &hold);
     mlx_loop_hook(hold.mlx, update_dot_position, &hold);
