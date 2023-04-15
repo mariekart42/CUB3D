@@ -66,7 +66,7 @@ void draw_looking_direction(t_hold *hold)
 {
     // draw_line(hold->mlx, hold->mlx_win, 10, 10, 100, 100, 0xbebebe);
     printf("x: %d\ny: %d\nnext_x: %d\nnext_y: %d\n\n", hold->x, hold->y, hold->next_x, hold->next_y);
-    draw_line(hold->mlx, hold->mlx_win, hold->x, hold->y, hold->x, hold->y, 0xbebebe);
+    draw_line(hold->mlx, hold->mlx_win, hold->x, hold->y, hold->dir_x, hold->dir_y, 0xbebebe);
     // hold->prev_x = hold->x;
     // hold->prev_y = hold->y;
 }

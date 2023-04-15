@@ -34,7 +34,7 @@ int32_t create_window(t_hold *hold)
 	}
     hold->bits_per_pixel = 8;
     hold->img_ptr = mlx_xpm_file_to_image(hold->mlx, "invader.xpm", &hold->x, &hold->y);
-    hold->img_data = mlx_get_data_addr(hold->img_ptr, &hold->bits_per_pixel, &hold->img_width, &hold->img_height);
+    // hold->img_data = mlx_get_data_addr(hold->img_ptr, &hold->bits_per_pixel, &hold->img_width, &hold->img_height);
     return (1);
 }
 
@@ -99,15 +99,22 @@ int32_t create_window(t_hold *hold)
 //     return (0);
 // }
 
+
 int key_hook(int keycode, t_hold *hold)
 {
     if (keycode == ESCAPE)
         exit(0);
-    // hold->angle = 0;
+    hold->angle = 0.6;
     if (keycode == A)
     {
-        hold->x += SPEED-(STEP_SIZE*cos(hold->angle));
-        hold->y += SPEED * sin(hold->angle);
+        // double new_x = hold->x * cos(hold->angle) - hold->y *sin(hold->angle);
+        // double new_y = hold->x * sin(hold->angle) + hold->y * cos(hold->angle);
+        // put_cross(hold, new_x, new_y);
+        // draw_line(hold->mlx, hold->mlx_win, hold->x, hold->y, new_x, new_y, 0xffdab9);
+        // hold->x = new_x;
+        // hold->y = new_y;
+        // hold->x += SPEED-(STEP_SIZE*cos(hold->angle));
+        // hold->y += SPEED * sin(hold->angle);
     }
     else if (keycode == W)
     {
@@ -126,11 +133,15 @@ int key_hook(int keycode, t_hold *hold)
     }
     if (keycode == LEFT)
     {
-        hold->angle += ROTATION_SPEED;
+        hold->dir_x = hold->x * cos(hold->angle) - hold->y *sin(hold->angle);
+        hold->dir_y = hold->x * sin(hold->angle) + hold->y * cos(hold->angle);
+        // hold->angle += ROTATION_SPEED;
     }
     if (keycode == RIGHT)
     {
-        hold->angle -= ROTATION_SPEED;
+        hold->dir_x = hold->x * cos(hold->angle) - hold->y *sin(hold->angle);
+        hold->dir_y = hold->x * sin(hold->angle) + hold->y * cos(hold->angle);
+        // hold->angle -= ROTATION_SPEED;
     }
     return (0);
 }
