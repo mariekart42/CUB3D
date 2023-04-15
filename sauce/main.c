@@ -34,6 +34,7 @@ int32_t create_window(t_hold *hold)
 	}
     hold->bits_per_pixel = 8;
     hold->img_ptr = mlx_xpm_file_to_image(hold->mlx, "invader.xpm", &hold->x, &hold->y);
+<<<<<<< HEAD
     hold->img_data = mlx_get_data_addr(hold->img_ptr, &hold->bits_per_pixel, &hold->img_width, &hold->img_height);
     
     // if firection is N:
@@ -54,6 +55,89 @@ int32_t key_hook(int keycode, t_hold *hold)
     {
         hold->x_dir -= LINE_LEN;
         hold->go = true;
+=======
+    // hold->img_data = mlx_get_data_addr(hold->img_ptr, &hold->bits_per_pixel, &hold->img_width, &hold->img_height);
+    return (1);
+}
+
+// int key_hook(int keycode, t_hold *hold)
+// {
+//     if (keycode == ESCAPE)
+//         exit(0);
+//     // hold->pr_x = hold->x;
+//     // hold->pr_y = hold->y;
+//     if (keycode == A)
+//     {
+//         hold->x -= cos(hold->angle) * SPEED+STEP_SIZE;
+//         hold->y -= sin(hold->angle) * SPEED;
+//         // hold->x -= 10;
+//     // hold->next_x = hold->x-40;
+//     // hold->next_y = hold->y;
+//     }
+//     else if (keycode == D)
+//     {
+//         // hold->x += 10;
+//     // hold->next_x = hold->x +40;
+//     // hold->next_y = hold->y;
+//         hold->x += cos(hold->angle) * SPEED+STEP_SIZE;
+//         hold->y += sin(hold->angle) * SPEED;
+//     }
+//     else if (keycode == S)
+//     {
+//     //     hold->y += 10;
+//     // hold->next_y = hold->y +40;
+//     // hold->next_x = hold->x;
+//         // hold->x += (cos(hold->angle) * SPEED);
+//         // hold->y += sin(hold->angle) * SPEED+STEP_SIZE;
+//        hold->x += SPEED*cos(hold->angle);
+//         hold->y += SPEED+STEP_SIZE*sin(hold->angle);
+//     }
+//     else if (keycode == W)
+//     {
+//         hold->x -= SPEED*cos(hold->angle);
+//         hold->y -= SPEED+STEP_SIZE*sin(hold->angle);
+//     //     hold->y -= 10;
+//     // hold->next_y = hold->y -40;
+//     // hold->next_x = hold->x;
+//     }
+//     if (keycode == LEFT)
+//     {
+//         hold->angle += ROTATION_SPEED;
+//     //     // hold->y -= 10;
+//     //     // hold->x -= 10;
+//     // // hold->next_x = hold->next_x -5;
+//     // // hold->next_y = hold->next_y -10;
+//     // hold->next_x = hold->next_x *sin(2);
+//     // hold->next_y = hold->next_y *cos(2);
+//     }
+//     if (keycode == RIGHT)
+//     {
+//         hold->angle -= ROTATION_SPEED;
+//         // hold->y -= 10;
+//         // hold->x -= 10;
+//     // hold->next_x = hold->next_x *sin(2);
+//     // hold->next_y = hold->next_y *cos(2);
+//     }
+//     return (0);
+// }
+
+
+int key_hook(int keycode, t_hold *hold)
+{
+    if (keycode == ESCAPE)
+        exit(0);
+    hold->angle = 0.6;
+    if (keycode == A)
+    {
+        // double new_x = hold->x * cos(hold->angle) - hold->y *sin(hold->angle);
+        // double new_y = hold->x * sin(hold->angle) + hold->y * cos(hold->angle);
+        // put_cross(hold, new_x, new_y);
+        // draw_line(hold->mlx, hold->mlx_win, hold->x, hold->y, new_x, new_y, 0xffdab9);
+        // hold->x = new_x;
+        // hold->y = new_y;
+        // hold->x += SPEED-(STEP_SIZE*cos(hold->angle));
+        // hold->y += SPEED * sin(hold->angle);
+>>>>>>> baaa00c0419f089c06dae4d1cf689271e191521c
     }
     else if (keycode == D)
     {
@@ -75,11 +159,23 @@ int32_t key_hook(int keycode, t_hold *hold)
     }
     if (keycode == LEFT)
     {
+<<<<<<< HEAD
         // calc angle between x_axis and current line
 
         hold->x_dir =cos(hold->angle) * LINE_LEN;
         hold->y_dir =sin(hold->angle) * LINE_LEN;
         hold->go = false;ھ 
+=======
+        hold->dir_x = hold->x * cos(hold->angle) - hold->y *sin(hold->angle);
+        hold->dir_y = hold->x * sin(hold->angle) + hold->y * cos(hold->angle);
+        // hold->angle += ROTATION_SPEED;
+    }
+    if (keycode == RIGHT)
+    {
+        hold->dir_x = hold->x * cos(hold->angle) - hold->y *sin(hold->angle);
+        hold->dir_y = hold->x * sin(hold->angle) + hold->y * cos(hold->angle);
+        // hold->angle -= ROTATION_SPEED;
+>>>>>>> baaa00c0419f089c06dae4d1cf689271e191521c
     }
     // if (keycode == RIGHT)
     // {

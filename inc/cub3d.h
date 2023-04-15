@@ -39,13 +39,18 @@
 // directions:
 # define LEFT 123
 # define RIGHT 124
+
+// school mac:
 # define W 13
 # define A 0
 # define S 1
 # define D 2
 
+<<<<<<< HEAD
 // delete later
 #define LINE_LEN 20 // len between player and direction point
+=======
+>>>>>>> baaa00c0419f089c06dae4d1cf689271e191521c
 // ----------------------------------------------------------------------------
 //!		STRUCTS:
 typedef struct s_hold
@@ -66,12 +71,22 @@ typedef struct s_hold
 
 	// int32_t cord_x;
 	// int32_t cord_y;
+	double dir_x;
+	double dir_y;
 	int32_t	x;
 	int32_t	y;
+<<<<<<< HEAD
 	// int32_t pr_x;
 	// int32_t pr_y;
 	// int32_t	next_x;
 	// int32_t	next_y;
+=======
+	int32_t pr_x;
+	int32_t pr_y;
+	int32_t	next_x;
+	int32_t	next_y;
+	double angle;
+>>>>>>> baaa00c0419f089c06dae4d1cf689271e191521c
 	int32_t img_width;
 	int32_t img_height;
 	int32_t bits_per_pixel;
