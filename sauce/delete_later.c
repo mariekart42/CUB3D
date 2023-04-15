@@ -53,13 +53,8 @@ void draw_grit(t_hold *hold)
 void draw_looking_direction(t_hold *hold)
 {
     // draw_line(hold->mlx, hold->mlx_win, 10, 10, 100, 100, 0xbebebe);
-<<<<<<< HEAD
-    // printf("x: %d\ny: %d\nnext_x: %d\nnext_y: %d\n\n", hold->x, hold->y, hold->next_x, hold->next_y);
-    draw_line(hold->mlx, hold->mlx_win, hold->x, hold->y, hold->x_dir, hold->y_dirt , 0xbebebe);
-=======
     printf("x: %d\ny: %d\nnext_x: %d\nnext_y: %d\n\n", hold->x, hold->y, hold->next_x, hold->next_y);
     draw_line(hold->mlx, hold->mlx_win, hold->x, hold->y, hold->dir_x, hold->dir_y, 0xbebebe);
->>>>>>> baaa00c0419f089c06dae4d1cf689271e191521c
     // hold->prev_x = hold->x;
     // hold->prev_y = hold->y;
 }
