@@ -9,27 +9,29 @@ int32_t	destroy_window(t_hold *hold)
 
 int update_dot_position(t_hold *hold)
 {
-    mlx_clear_window(hold->mlx, hold->mlx_win);
     if (hold->go == true)
     {
+        mlx_clear_window(hold->mlx, hold->mlx_win);
         mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->img_ptr, (hold->x) - 10, (hold->y) - 10);
         // printf("x: %d\ny: %d\nx_look: %d\ny_look: %d\n\n", hold->x, hold->y, hold->x_look, hold->y_look);
         // hold->x = hold->x_look;
         // hold->y = hold->y_look;
         // hold->x_look = 0;
         // hold->y_look = 0;
+        put_info_on_window(hold);
 
     }
-    else
-        mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->img_ptr, hold->x - 10, hold->y-10);
     draw_looking_direction(hold);
-    put_info_on_window(hold);
+    // else
+    //     mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->img_ptr, hold->x - 10, hold->y-10);
 
     return (0);
 }
 
 int32_t create_window(t_hold *hold)
 {
+    // hold->x = (int)hold->x;
+    // hold->y = (int)hold->y;
     hold->mlx_win = mlx_new_window(hold->mlx, 1000, 800, "WINDOW_NAME");
     if (!hold->mlx_win)
 	{
@@ -37,7 +39,7 @@ int32_t create_window(t_hold *hold)
 		return (0);
 	}
     hold->bits_per_pixel = 8;
-    hold->img_ptr = mlx_xpm_file_to_image(hold->mlx, "invader.xpm", &hold->x, &hold->y);
+    hold->img_ptr = mlx_xpm_file_to_image(hold->mlx, "invader.xpm", (int*)&hold->x, (int*)&hold->y);
 
     // hold->img_data = mlx_get_data_addr(hold->img_ptr, &hold->bits_per_pixel, &hold->img_width, &hold->img_height);
     
@@ -50,7 +52,7 @@ int32_t create_window(t_hold *hold)
 
 int32_t key_hook(int keycode, t_hold *hold)
 {
-    int32_t store_x_look;
+    float store_x_look;
 
     if (keycode == ESCAPE)
         exit(0);
@@ -76,7 +78,7 @@ int32_t key_hook(int keycode, t_hold *hold)
     }
     else if (keycode == W)
     {
-        hold->y -= LINE_LEN;
+        hold->y = hold->y_look;
         hold->y_look -= LINE_LEN;
         hold->go = true;
 
@@ -94,9 +96,9 @@ int32_t key_hook(int keycode, t_hold *hold)
     {
         store_x_look = hold->x_look;
     //x2 = x0 + (x1 - x0)*cos(θ) + (y1 - y0)*sin(θ)
-        hold->x_look = hold->x + (hold->x_look - hold->x) * cos(hold->angle) + (hold->y_look - hold->y) * sin(hold->angle);
+        hold->x_look = hold->x + (hold->x_look - hold->x) * cos(2*M_PI+hold->angle) + (hold->y_look - hold->y) * sin(2*M_PI-hold->angle);
     //y2 = y0 + (y1 - y0)*cos(θ) - (x1 - x0)*sin(θ)
-        hold->y_look =(hold->y + (hold->y_look - hold->y) * cos(hold->angle) - (store_x_look - hold->x) * sin(hold->angle));
+        hold->y_look =hold->y + (hold->y_look - hold->y) * cos(2*M_PI+hold->angle) - (store_x_look - hold->x) * sin(2*M_PI-hold->angle);
         hold->go = false;
     }
 

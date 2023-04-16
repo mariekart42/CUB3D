@@ -62,10 +62,10 @@ typedef struct s_hold
 
 
 
-	int32_t x;
-	int32_t y;
-	int32_t x_look;
-	int32_t y_look;
+	float x;
+	float y;
+	float x_look;
+	float y_look;
 	float angle;
 	bool go;
 }						t_hold;
