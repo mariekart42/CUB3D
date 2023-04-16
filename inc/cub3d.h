@@ -37,7 +37,7 @@
 # define SPEED 5
 # define ROTATION_SPEED 0.1
 // # define STEP_SIZE 20
-# define LINE_LEN 20
+# define LINE_LEN 30
 // directions:
 # define LEFT 123
 # define RIGHT 124
