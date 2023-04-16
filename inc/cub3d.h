@@ -35,8 +35,8 @@
 # define ESCAPE 53
 # define SPEED 5
 # define ROTATION_SPEED 0.1
-# define STEP_SIZE 20
-# define LINE_LEN 20
+// # define STEP_SIZE 20
+# define LINE_LEN 40
 // directions:
 # define LEFT 123
 # define RIGHT 124
@@ -63,8 +63,8 @@ typedef struct s_hold
 
 	int32_t x;
 	int32_t y;
-	float x_look;
-	float y_look;
+	int32_t x_look;
+	int32_t y_look;
 	float angle;
 	bool go;
 }						t_hold;

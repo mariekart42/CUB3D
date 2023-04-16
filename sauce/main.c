@@ -12,14 +12,18 @@ int update_dot_position(t_hold *hold)
     mlx_clear_window(hold->mlx, hold->mlx_win);
     if (hold->go == true)
     {
-        mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->img_ptr, (hold->x + hold->x_look) - hold->img_width / 2, (hold->y + hold->y_look) - hold->img_height / 2);
+        mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->img_ptr, (hold->x) - 10, (hold->y) - 10);
+        draw_looking_direction(hold);
+        // printf("x: %d\ny: %d\nx_look: %d\ny_look: %d\n\n", hold->x, hold->y, hold->x_look, hold->y_look);
         // hold->x = hold->x_look;
         // hold->y = hold->y_look;
+        // hold->x_look = 0;
+        // hold->y_look = 0;
+
     }
     else
-        mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->img_ptr, hold->x - hold->img_width / 2, hold->y - hold->img_height / 2);
+        mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->img_ptr, hold->x, hold->y);
 
-    draw_looking_direction(hold);
 
     return (0);
 }
@@ -34,11 +38,12 @@ int32_t create_window(t_hold *hold)
 	}
     hold->bits_per_pixel = 8;
     hold->img_ptr = mlx_xpm_file_to_image(hold->mlx, "invader.xpm", &hold->x, &hold->y);
-    hold->img_data = mlx_get_data_addr(hold->img_ptr, &hold->bits_per_pixel, &hold->img_width, &hold->img_height);
+
+    // hold->img_data = mlx_get_data_addr(hold->img_ptr, &hold->bits_per_pixel, &hold->img_width, &hold->img_height);
     
     // if firection is N:
     hold->x_look = hold->x;
-    hold->y_look = hold->y + LINE_LEN;
+    hold->y_look = hold->y - LINE_LEN;
     return (1);
 }
 
@@ -47,42 +52,51 @@ int32_t key_hook(int keycode, t_hold *hold)
 {
     if (keycode == ESCAPE)
         exit(0);
-    // hold->pr_x = hold->x;
-    // hold->pr_y = hold->y;
-        hold->go = false;
     if (keycode == A)
     {
         hold->x -= LINE_LEN;
+        hold->x_look -= LINE_LEN;
         hold->go = true;
     }
     else if (keycode == D)
     {
         hold->x += LINE_LEN;
+        hold->x_look += LINE_LEN;
         hold->go = true;
 
     }
     else if (keycode == S)
     {
         hold->y += LINE_LEN;
+        hold->y_look += LINE_LEN;
         hold->go = true;
 
     }
     else if (keycode == W)
     {
         hold->y -= LINE_LEN;
+        hold->y_look -= LINE_LEN;
         hold->go = true;
 
     }
     // if (keycode == LEFT)
     // {
-    //     hold->x_look = hold->x_curr + hold->x_look * cos(hold->angle) - hold->y_curr *sin(hold->angle);
-    //     hold->y_look = hold->x_curr + hold->y_look * sin(hold->angle) + hold->y_curr * cos(hold->angle);
+    //     hold->go = false;
+    //     if (hold->x == hold->x_look)
+    //     {
+    //         hold->x_look = hold->x + (cos(hold->angle) *sin(hold->angle));
+    //         hold->y_look = hold->y + (sin(hold->angle) *cos(hold->angle));
+    //     }
     //     // hold->angle += ROTATION_SPEED;
     // }
     // if (keycode == RIGHT)
     // {
-    //     hold->x_look = hold->x * cos(hold->angle) - hold->y *sin(hold->angle);
-    //     hold->y_look = hold->x * sin(hold->angle) + hold->y * cos(hold->angle);
+    // hold->go = false;
+    //     if (hold->y == hold->y_look)
+    //     {
+    //         hold->x_look = cos(hold->angle) - hold->y *sin(hold->angle);
+    //         hold->y_look = sin(hold->angle) + hold->y * cos(hold->angle);
+    //     }
     //     // hold->angle -= ROTATION_SPEED;
     // }
 
@@ -94,6 +108,11 @@ int32_t init_hold(t_hold *hold)
     hold->mlx = mlx_init();
     if (!hold->mlx)
 		return (0);
+    hold->x = 100;
+    hold->y = 100;
+    hold->x_look = 100;
+    hold->y_look = 100;
+    hold->go = false;
     return (1);
 }
 
@@ -145,11 +164,12 @@ int main(void)
     if (!init_hold(&hold) || !create_window(&hold))
         return (MLX_ERROR);
 
-    init_direction_vector(&hold);
-    hold.angle =0.5;
+    // init_direction_vector(&hold);
+    printf("x: %d\ny: %d\nx_look: %d\ny_look: %d\n\n", hold.x, hold.y, hold.x_look, hold.y_look);
+    // draw_line(hold.mlx, hold.mlx_win, hold.x, hold.y, hold.x_look, hold.y_look, 0xbfefff);
+    hold.angle =0.1;
     mlx_key_hook(hold.mlx_win, key_hook, &hold);
     mlx_loop_hook(hold.mlx, update_dot_position, &hold);
-
     mlx_loop(hold.mlx);
 }
 
