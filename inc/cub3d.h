@@ -5,6 +5,7 @@
 // ----------------------------------------------------------------------------
 //!		INCLUDES:
 #include <unistd.h>
+#include <stdio.h> // debugging
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -36,7 +37,7 @@
 # define SPEED 5
 # define ROTATION_SPEED 0.1
 // # define STEP_SIZE 20
-# define LINE_LEN 40
+# define LINE_LEN 20
 // directions:
 # define LEFT 123
 # define RIGHT 124
@@ -86,5 +87,6 @@ void init_put_line(t_hold *hold, double want_x, double want_y);
 void draw_grit(t_hold *hold);
 void draw_looking_direction(t_hold *hold);
 void put_cross(t_hold *hold,int x, int y);
+void put_info_on_window(t_hold *hold);
 
 #endif

@@ -13,7 +13,6 @@ int update_dot_position(t_hold *hold)
     if (hold->go == true)
     {
         mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->img_ptr, (hold->x) - 10, (hold->y) - 10);
-        draw_looking_direction(hold);
         // printf("x: %d\ny: %d\nx_look: %d\ny_look: %d\n\n", hold->x, hold->y, hold->x_look, hold->y_look);
         // hold->x = hold->x_look;
         // hold->y = hold->y_look;
@@ -22,15 +21,16 @@ int update_dot_position(t_hold *hold)
 
     }
     else
-        mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->img_ptr, hold->x, hold->y);
-
+        mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->img_ptr, hold->x - 10, hold->y-10);
+    draw_looking_direction(hold);
+    put_info_on_window(hold);
 
     return (0);
 }
 
 int32_t create_window(t_hold *hold)
 {
-    hold->mlx_win = mlx_new_window(hold->mlx, 1000, 700, "WINDOW_NAME");
+    hold->mlx_win = mlx_new_window(hold->mlx, 1000, 800, "WINDOW_NAME");
     if (!hold->mlx_win)
 	{
 		free(hold->mlx_win);
@@ -79,16 +79,20 @@ int32_t key_hook(int keycode, t_hold *hold)
         hold->go = true;
 
     }
-    // if (keycode == LEFT)
-    // {
-    //     hold->go = false;
-    //     if (hold->x == hold->x_look)
-    //     {
-    //         hold->x_look = hold->x + (cos(hold->angle) *sin(hold->angle));
-    //         hold->y_look = hold->y + (sin(hold->angle) *cos(hold->angle));
-    //     }
-    //     // hold->angle += ROTATION_SPEED;
-    // }
+    if (keycode == LEFT)
+    {
+        if (hold->x == hold->x_look)
+        {
+            printf("x: %d\ny: %d\nx_look: %d\ny_look: %d\n\n", hold->x, hold->y, hold->x_look, hold->y_look);
+        hold->go = false;
+            hold->x_look = hold->x + (cos(hold->angle) *sin(hold->angle));
+            hold->y_look = hold->y - (sin(hold->angle) *cos(hold->angle));
+
+            printf("x: %d\ny: %d\nx_look: %d\ny_look: %d\n\n", hold->x, hold->y, hold->x_look, hold->y_look);
+            // exit(0);
+        }
+        // hold->angle += ROTATION_SPEED;
+    }
     // if (keycode == RIGHT)
     // {
     // hold->go = false;
@@ -167,7 +171,7 @@ int main(void)
     // init_direction_vector(&hold);
     printf("x: %d\ny: %d\nx_look: %d\ny_look: %d\n\n", hold.x, hold.y, hold.x_look, hold.y_look);
     // draw_line(hold.mlx, hold.mlx_win, hold.x, hold.y, hold.x_look, hold.y_look, 0xbfefff);
-    hold.angle =0.1;
+    hold.angle =10;
     mlx_key_hook(hold.mlx_win, key_hook, &hold);
     mlx_loop_hook(hold.mlx, update_dot_position, &hold);
     mlx_loop(hold.mlx);
