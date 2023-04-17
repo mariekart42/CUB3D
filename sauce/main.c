@@ -19,9 +19,16 @@ int update_dot_position(t_hold *hold)
         // hold->x_look = 0;
         // hold->y_look = 0;
         put_info_on_window(hold);
+        draw_looking_direction(hold);
 
     }
-    draw_looking_direction(hold);
+    else
+    {
+        mlx_clear_window(hold->mlx, hold->mlx_win);
+        put_info_on_window(hold);
+        draw_looking_direction(hold);
+
+    }
     // else
     //     mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->img_ptr, hold->x - 10, hold->y-10);
 
@@ -81,11 +88,11 @@ int32_t key_hook(int keycode, t_hold *hold)
         float tmp_x;
         float tmp_y;
         tmp_x = hold->x_look-hold->x;
-        tmp_y = hold->y_look-hold->y;
+        tmp_y = hold->y-hold->y_look;
         hold->y = hold->y_look;
         hold->x = hold->x_look;
-        hold->x_look = 2*tmp_x;
-        hold->y_look = -2*tmp_y;
+        hold->x_look += tmp_x;
+        hold->y_look -= tmp_y;
         // hold->y_look -= LINE_LEN;
         hold->go = true;
 
