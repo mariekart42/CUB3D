@@ -9,7 +9,8 @@ LIB_F = libft
 LIB = libft/libft.a
 
 SRC		=	sauce/main.c \
-			sauce/delete_later.c
+			sauce/delete_later.c \
+			sauce/keyevents.c
 
 SRC_PATH = sauce/
 OBJ_PATH = obj/

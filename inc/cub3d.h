@@ -4,11 +4,10 @@
 
 // ----------------------------------------------------------------------------
 //!		INCLUDES:
-#include <unistd.h>
-#include <stdio.h> // debugging
-#include <math.h>
-#include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <stdio.h>		// debugging
+#include <math.h>		// cos and sin
 # include <stdbool.h>	// bool
 # include <fcntl.h>	    // open func
 # include <limits.h>	// for macros
@@ -27,22 +26,21 @@
 # define WHT   "\x1B[37m"
 # define RESET "\x1B[0m"
 
-# define WINDOW_NAME "Das ist ein window lol"
+# define WINDOW_NAME "u gay"
 # define WIDHT 1000
 # define HIGHT 700
-#define PLAYER_POSITION_X 100
+#define PLAYER_POSITION_X 500
 #define PLAYER_POSITION_Y 200
 # define MLX_ERROR -1
 # define ESCAPE 53
-# define SPEED 5
-# define ROTATION_SPEED 0.1
+// # define SPEED 5
+// # define ROTATION_SPEED 0.1
 // # define STEP_SIZE 20
 # define LINE_LEN 50
+
 // directions:
 # define LEFT 123
 # define RIGHT 124
-
-// school mac:
 # define W 13
 # define A 0
 # define S 1
@@ -75,10 +73,18 @@ typedef struct s_hold
 void draw_line(void *mlx, void *win, int x0, int y0, int x1, int y1, int color);
 
 int32_t init_hold(t_hold *hold);
-int key_hook(int keycode, t_hold *hold);
 int32_t create_window(t_hold *hold);
-int update_dot_position(t_hold *hold);
 int32_t	destroy_window(t_hold *hold);
+
+
+
+//!	KEYEVENTS:
+int32_t update_dot_position(t_hold *hold);
+float init_pi_val(int32_t keycode, char *sin_or_cos);
+void calc_new_coordinate(t_hold *hold, int32_t keycode);
+void calc_new_look_dir(t_hold *hold, int32_t keycode);
+int32_t key_hook(int keycode, t_hold *hold);
+
 
 
 // delete_later.c
