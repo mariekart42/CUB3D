@@ -56,66 +56,134 @@ int32_t create_window(t_hold *hold)
     return (1);
 }
 
+float init_pi_val(int32_t keycode, char *sin_or_cos)
+{
+    if (ft_strncmp(sin_or_cos, "sin", 3) == 0)
+    {
+        if (keycode == A)
+            return (0.5 * M_PI);
+        if (keycode == D)
+            return (1.5 * M_PI);
+        if (keycode == S)
+            return (M_PI);
+    }
+    else if (ft_strncmp(sin_or_cos, "cos", 3) == 0)
+    {
+        if (keycode == A)
+            return (0.5 * M_PI);
+        if (keycode == D)
+            return (2.5 * M_PI);
+        if (keycode == S)
+            return (3 * M_PI);
+    }
+    return (0);
+}
+
+float calc_new_coordinate(t_hold *hold, int32_t keycode, char x_or_y, float store_x)
+{
+    float pi_val_sin;
+    float pi_val_cos;
+
+    pi_val_sin = init_pi_val(keycode, "sin");
+    pi_val_cos = init_pi_val(keycode, "cos");
+    if (x_or_y == 'x')
+        return (hold->x + (hold->x_look - hold->x) * cos(pi_val_cos) + (hold->y_look - hold->y) * sin(pi_val_sin));
+    else
+        return (hold->y + (hold->y_look - hold->y) * cos(pi_val_cos) - (hold->x_look - store_x) * sin(pi_val_sin));
+    // hold->x = hold->x + (hold->x_look - hold->x) * cos(pi_val_cos *M_PI) + (hold->y_look - hold->y) * sin(pi_val_sin *M_PI);
+    // hold->y =hold->y + (hold->y_look - hold->y) * cos(pi_val_cos *M_PI) - (hold->x_look - hold->x) * sin(pi_val_sin *M_PI);
+}
 
 int32_t key_hook(int keycode, t_hold *hold)
 {
     float store_x_look;
+    float store_x;
 
-    if (keycode == ESCAPE)
-        exit(0);
-    if (keycode == A)
-    {
-        hold->x -= LINE_LEN;
-        hold->x_look -= LINE_LEN;
-        hold->go = true;
-    }
-    else if (keycode == D)
-    {
-        hold->x += LINE_LEN;
-        hold->x_look += LINE_LEN;
-        hold->go = true;
-
-    }
-    else if (keycode == S)
-    {
-        hold->y += LINE_LEN;
-        hold->y_look += LINE_LEN;
-        hold->go = true;
-
-    }
-    else if (keycode == W)
-    {
         float tmp_x;
         float tmp_y;
+    if (keycode == ESCAPE)
+        exit(0);
+    if (keycode == A || keycode == W|| keycode == S || keycode == D)
+    {
         tmp_x = hold->x_look-hold->x;
         tmp_y = hold->y-hold->y_look;
-        hold->y = hold->y_look;
-        hold->x = hold->x_look;
-        hold->x_look += tmp_x;
-        hold->y_look -= tmp_y;
-        // hold->y_look -= LINE_LEN;
+        store_x = hold->x;
+        hold->x = calc_new_coordinate(hold, keycode, 'x', 0);
+        hold->y = calc_new_coordinate(hold, keycode, 'y', store_x);
+        hold->x_look = hold->x + (tmp_x);
+        hold->y_look = hold->y - (tmp_y);
         hold->go = true;
-
     }
+
+    // if (keycode == A)
+    // {
+    //     tmp_x = hold->x_look-hold->x;
+    //     tmp_y = hold->y-hold->y_look;
+    //     store_x = hold->x;
+    //     hold->x = hold->x + (hold->x_look - hold->x) * cos(0.5 *M_PI) + (hold->y_look - hold->y) * sin(0.5 *M_PI);
+    //     hold->y =hold->y + (hold->y_look - hold->y) * cos(0.5 *M_PI) - (hold->x_look - store_x) * sin(0.5 *M_PI);
+    //     hold->x_look = hold->x + (tmp_x);
+    //     hold->y_look = hold->y - (tmp_y);
+    //     hold->go = true;
+    // }
+    // else if (keycode == D)
+    // {
+    //     tmp_x = hold->x_look-hold->x;
+    //     tmp_y = hold->y-hold->y_look;
+    //     store_x = hold->x;
+    //     hold->x = hold->x + (hold->x_look - hold->x) * cos((2.5*M_PI)) + (hold->y_look - hold->y) * sin((1.5*M_PI));
+    //     hold->y =hold->y + (hold->y_look - hold->y) * cos((2.5*M_PI)) - (hold->x_look - store_x) * sin((1.5*M_PI));
+    //     hold->x_look = hold->x + (tmp_x);
+    //     hold->y_look = hold->y - (tmp_y);
+    //     hold->go = true;
+    // }
+    // else if (keycode == S)
+    // {
+    //     tmp_x = hold->x_look-hold->x;
+    //     tmp_y = hold->y-hold->y_look;
+    //     store_x = hold->x;
+    //     hold->x = hold->x + (hold->x_look - hold->x) * cos((3*M_PI)) + (hold->y_look - hold->y) * sin((M_PI));
+    //     hold->y =hold->y + (hold->y_look - hold->y) * cos((3*M_PI)) - (hold->x_look - store_x) * sin((M_PI));
+    //     hold->go = true;
+    //     hold->x_look = hold->x + (tmp_x);
+    //     hold->y_look = hold->y - (tmp_y);
+    // }
+    // if (keycode == W)
+    // {
+
+    //     tmp_x = hold->x_look-hold->x;
+    //     tmp_y = hold->y-hold->y_look;
+    //     store_x = hold->x;
+    //     hold->x = hold->x + (hold->x_look - hold->x) * cos((0)) + (hold->y_look - hold->y) * sin((0));
+    //     hold->y =hold->y + (hold->y_look - hold->y) * cos((0)) - (hold->x_look - store_x) * sin((0));
+    //     hold->go = true;
+    //     hold->x_look = hold->x + (tmp_x);
+    //     hold->y_look = hold->y - (tmp_y);
+
+
+
+    //     // tmp_x = hold->x_look-hold->x;
+    //     // tmp_y = hold->y-hold->y_look;
+    //     // hold->y = hold->y_look;
+    //     // hold->x = hold->x_look;
+    //     // hold->x_look += tmp_x;
+    //     // hold->y_look -= tmp_y;
+    //     // hold->go = true;
+    // }
     if (keycode == LEFT)
     {
         store_x_look = hold->x_look;
-    //x2 = x0 + (x1 - x0)*cos(θ) + (y1 - y0)*sin(θ)
         hold->x_look = hold->x + (hold->x_look - hold->x) * cos(hold->angle) + (hold->y_look - hold->y) * sin(hold->angle);
-    //y2 = y0 + (y1 - y0)*cos(θ) - (x1 - x0)*sin(θ)
         hold->y_look =hold->y + (hold->y_look - hold->y) * cos(hold->angle) - (store_x_look - hold->x) * sin(hold->angle);
         hold->go = false;
     }
     if (keycode == RIGHT)
     {
         store_x_look = hold->x_look;
-    //x2 = x0 + (x1 - x0)*cos(θ) + (y1 - y0)*sin(θ)
         hold->x_look = hold->x + (hold->x_look - hold->x) * cos(2*M_PI+hold->angle) + (hold->y_look - hold->y) * sin(2*M_PI-hold->angle);
-    //y2 = y0 + (y1 - y0)*cos(θ) - (x1 - x0)*sin(θ)
         hold->y_look =hold->y + (hold->y_look - hold->y) * cos(2*M_PI+hold->angle) - (store_x_look - hold->x) * sin(2*M_PI-hold->angle);
         hold->go = false;
     }
-
     return (0);
 }
 
@@ -195,6 +263,7 @@ int main(void)
 //! NEXT:
 // - create 2d map
 // - key also works if pressed
+// - sidewide walk with angles
 
 
 //! GENERAL:
