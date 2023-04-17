@@ -78,8 +78,15 @@ int32_t key_hook(int keycode, t_hold *hold)
     }
     else if (keycode == W)
     {
+        float tmp_x;
+        float tmp_y;
+        tmp_x = hold->x_look-hold->x;
+        tmp_y = hold->y_look-hold->y;
         hold->y = hold->y_look;
-        hold->y_look -= LINE_LEN;
+        hold->x = hold->x_look;
+        hold->x_look = 2*tmp_x;
+        hold->y_look = -2*tmp_y;
+        // hold->y_look -= LINE_LEN;
         hold->go = true;
 
     }
