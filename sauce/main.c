@@ -9,36 +9,15 @@ int32_t	destroy_window(t_hold *hold)
 
 int update_dot_position(t_hold *hold)
 {
-    if (hold->go == true)
-    {
-        mlx_clear_window(hold->mlx, hold->mlx_win);
-        mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->img_ptr, (hold->x) - 10, (hold->y) - 10);
-        // printf("x: %d\ny: %d\nx_look: %d\ny_look: %d\n\n", hold->x, hold->y, hold->x_look, hold->y_look);
-        // hold->x = hold->x_look;
-        // hold->y = hold->y_look;
-        // hold->x_look = 0;
-        // hold->y_look = 0;
-        put_info_on_window(hold);
-        draw_looking_direction(hold);
-
-    }
-    else
-    {
-        mlx_clear_window(hold->mlx, hold->mlx_win);
-        put_info_on_window(hold);
-        draw_looking_direction(hold);
-
-    }
-    // else
-    //     mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->img_ptr, hold->x - 10, hold->y-10);
-
+	mlx_clear_window(hold->mlx, hold->mlx_win);
+	mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->img_ptr, (hold->x) - 10, (hold->y) - 10);
+	put_info_on_window(hold);
+	draw_looking_direction(hold);
     return (0);
 }
 
 int32_t create_window(t_hold *hold)
 {
-    // hold->x = (int)hold->x;
-    // hold->y = (int)hold->y;
     hold->mlx_win = mlx_new_window(hold->mlx, 1000, 800, "WINDOW_NAME");
     if (!hold->mlx_win)
 	{
@@ -79,109 +58,57 @@ float init_pi_val(int32_t keycode, char *sin_or_cos)
     return (0);
 }
 
-float calc_new_coordinate(t_hold *hold, int32_t keycode, char x_or_y, float store_x)
+/* function calculates based on the keyhook_events, new position of the player */
+void calc_new_coordinate(t_hold *hold, int32_t keycode)
 {
     float pi_val_sin;
     float pi_val_cos;
+    float store_x;
 
+    store_x = hold->x;
     pi_val_sin = init_pi_val(keycode, "sin");
     pi_val_cos = init_pi_val(keycode, "cos");
-    if (x_or_y == 'x')
-        return (hold->x + (hold->x_look - hold->x) * cos(pi_val_cos) + (hold->y_look - hold->y) * sin(pi_val_sin));
-    else
-        return (hold->y + (hold->y_look - hold->y) * cos(pi_val_cos) - (hold->x_look - store_x) * sin(pi_val_sin));
-    // hold->x = hold->x + (hold->x_look - hold->x) * cos(pi_val_cos *M_PI) + (hold->y_look - hold->y) * sin(pi_val_sin *M_PI);
-    // hold->y =hold->y + (hold->y_look - hold->y) * cos(pi_val_cos *M_PI) - (hold->x_look - hold->x) * sin(pi_val_sin *M_PI);
+    hold->x = hold->x + (hold->x_look - hold->x) * cos(pi_val_cos) + (hold->y_look - hold->y) * sin(pi_val_sin);
+    hold->y = hold->y + (hold->y_look - hold->y) * cos(pi_val_cos) - (hold->x_look - store_x) * sin(pi_val_sin);
+}
+
+/* function calculates the new looking_direction based on the updated x and y values */
+void calc_new_look_dir(t_hold *hold, int32_t keycode)
+{
+    float store_x_look;
+
+	store_x_look = hold->x_look;
+    if (keycode == LEFT)
+    {
+        hold->x_look = hold->x + (hold->x_look - hold->x) * cos(hold->angle) + (hold->y_look - hold->y) * sin(hold->angle);
+        hold->y_look =hold->y + (hold->y_look - hold->y) * cos(hold->angle) - (store_x_look - hold->x) * sin(hold->angle);
+    }
+	else
+	{
+		hold->x_look = hold->x + (hold->x_look - hold->x) * cos(2*M_PI+hold->angle) + (hold->y_look - hold->y) * sin(2*M_PI-hold->angle);
+        hold->y_look =hold->y + (hold->y_look - hold->y) * cos(2*M_PI+hold->angle) - (store_x_look - hold->x) * sin(2*M_PI-hold->angle);
+	}
 }
 
 int32_t key_hook(int keycode, t_hold *hold)
 {
-    float store_x_look;
-    float store_x;
+	float tmp_x;
+	float tmp_y;
 
-        float tmp_x;
-        float tmp_y;
     if (keycode == ESCAPE)
         exit(0);
-    if (keycode == A || keycode == W|| keycode == S || keycode == D)
+    if (keycode == A || keycode == W || keycode == S || keycode == D)
     {
-        tmp_x = hold->x_look-hold->x;
-        tmp_y = hold->y-hold->y_look;
-        store_x = hold->x;
-        hold->x = calc_new_coordinate(hold, keycode, 'x', 0);
-        hold->y = calc_new_coordinate(hold, keycode, 'y', store_x);
-        hold->x_look = hold->x + (tmp_x);
-        hold->y_look = hold->y - (tmp_y);
+        tmp_x = hold->x_look - hold->x;
+        tmp_y = hold->y - hold->y_look;
+        calc_new_coordinate(hold, keycode);
+        hold->x_look = hold->x + tmp_x;
+        hold->y_look = hold->y - tmp_y;
         hold->go = true;
     }
-
-    // if (keycode == A)
-    // {
-    //     tmp_x = hold->x_look-hold->x;
-    //     tmp_y = hold->y-hold->y_look;
-    //     store_x = hold->x;
-    //     hold->x = hold->x + (hold->x_look - hold->x) * cos(0.5 *M_PI) + (hold->y_look - hold->y) * sin(0.5 *M_PI);
-    //     hold->y =hold->y + (hold->y_look - hold->y) * cos(0.5 *M_PI) - (hold->x_look - store_x) * sin(0.5 *M_PI);
-    //     hold->x_look = hold->x + (tmp_x);
-    //     hold->y_look = hold->y - (tmp_y);
-    //     hold->go = true;
-    // }
-    // else if (keycode == D)
-    // {
-    //     tmp_x = hold->x_look-hold->x;
-    //     tmp_y = hold->y-hold->y_look;
-    //     store_x = hold->x;
-    //     hold->x = hold->x + (hold->x_look - hold->x) * cos((2.5*M_PI)) + (hold->y_look - hold->y) * sin((1.5*M_PI));
-    //     hold->y =hold->y + (hold->y_look - hold->y) * cos((2.5*M_PI)) - (hold->x_look - store_x) * sin((1.5*M_PI));
-    //     hold->x_look = hold->x + (tmp_x);
-    //     hold->y_look = hold->y - (tmp_y);
-    //     hold->go = true;
-    // }
-    // else if (keycode == S)
-    // {
-    //     tmp_x = hold->x_look-hold->x;
-    //     tmp_y = hold->y-hold->y_look;
-    //     store_x = hold->x;
-    //     hold->x = hold->x + (hold->x_look - hold->x) * cos((3*M_PI)) + (hold->y_look - hold->y) * sin((M_PI));
-    //     hold->y =hold->y + (hold->y_look - hold->y) * cos((3*M_PI)) - (hold->x_look - store_x) * sin((M_PI));
-    //     hold->go = true;
-    //     hold->x_look = hold->x + (tmp_x);
-    //     hold->y_look = hold->y - (tmp_y);
-    // }
-    // if (keycode == W)
-    // {
-
-    //     tmp_x = hold->x_look-hold->x;
-    //     tmp_y = hold->y-hold->y_look;
-    //     store_x = hold->x;
-    //     hold->x = hold->x + (hold->x_look - hold->x) * cos((0)) + (hold->y_look - hold->y) * sin((0));
-    //     hold->y =hold->y + (hold->y_look - hold->y) * cos((0)) - (hold->x_look - store_x) * sin((0));
-    //     hold->go = true;
-    //     hold->x_look = hold->x + (tmp_x);
-    //     hold->y_look = hold->y - (tmp_y);
-
-
-
-    //     // tmp_x = hold->x_look-hold->x;
-    //     // tmp_y = hold->y-hold->y_look;
-    //     // hold->y = hold->y_look;
-    //     // hold->x = hold->x_look;
-    //     // hold->x_look += tmp_x;
-    //     // hold->y_look -= tmp_y;
-    //     // hold->go = true;
-    // }
-    if (keycode == LEFT)
+    else if (keycode == LEFT || keycode == RIGHT)
     {
-        store_x_look = hold->x_look;
-        hold->x_look = hold->x + (hold->x_look - hold->x) * cos(hold->angle) + (hold->y_look - hold->y) * sin(hold->angle);
-        hold->y_look =hold->y + (hold->y_look - hold->y) * cos(hold->angle) - (store_x_look - hold->x) * sin(hold->angle);
-        hold->go = false;
-    }
-    if (keycode == RIGHT)
-    {
-        store_x_look = hold->x_look;
-        hold->x_look = hold->x + (hold->x_look - hold->x) * cos(2*M_PI+hold->angle) + (hold->y_look - hold->y) * sin(2*M_PI-hold->angle);
-        hold->y_look =hold->y + (hold->y_look - hold->y) * cos(2*M_PI+hold->angle) - (store_x_look - hold->x) * sin(2*M_PI-hold->angle);
+        calc_new_look_dir(hold, keycode);
         hold->go = false;
     }
     return (0);
