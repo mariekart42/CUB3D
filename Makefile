@@ -10,6 +10,10 @@ LIB = libft/libft.a
 
 SRC		=	sauce/main.c \
 			sauce/delete_later.c \
+			sauce/error.c \
+			sauce/cub_utils.c \
+			sauce/00_check_map.c \
+			sauce/01_check_map.c \
 			sauce/keyevents.c
 
 SRC_PATH = sauce/

@@ -34,7 +34,7 @@
 # define MLX_ERROR -1
 # define ESCAPE 53
 // # define SPEED 5
-// # define ROTATION_SPEED 0.1
+# define ROTATION_ANGLE 0.4
 // # define STEP_SIZE 20
 # define LINE_LEN 50
 
@@ -48,17 +48,64 @@
 
 // ----------------------------------------------------------------------------
 //!		STRUCTS:
+// ju's structs
+typedef struct	s_img
+{
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+
+	int		height;
+	int		width;
+}				t_img;
+
+typedef struct s_cub
+{
+	int		floor_colour;
+	int		ceiling_colour;
+	t_img	*img;
+	t_img	*img_2;
+	t_img	*img_north;
+	t_img	*img_east;
+	t_img	*img_south;
+	t_img	*img_west;
+	
+	double	player_pos_x;
+	double	player_pos_y;
+	int		map_pos_x;
+	int		map_pos_y;
+	double	wallx;
+	
+	int		fd;
+	int		map_rows;
+	int		map_columns;
+	char	player_dir;
+	char	**map;
+	char	*ceiling;
+	char	*floor;
+	//check for correct path
+	char	*path_north;
+	char	*path_east;
+	char	*path_south;
+	char	*path_west;
+	char	*file_name;
+
+	void	*mlx;
+	void	*mlx_win;
+}				t_cub;
+
+
 typedef struct s_hold
 {
 	void	*mlx;
 	void	*mlx_win;
 	void	*img_ptr;
-	char	*img_data;
-	int32_t img_width;
-	int32_t img_height;
-	int32_t bits_per_pixel;
-
-
+	// char	*img_data;
+	// int32_t img_width;
+	// int32_t img_height;
+	// int32_t bits_per_pixel;
 
 	float x;
 	float y;
@@ -66,6 +113,7 @@ typedef struct s_hold
 	float y_look;
 	float angle;
 	bool go;
+	struct s_cub	*cub;
 }						t_hold;
 
 // ----------------------------------------------------------------------------
@@ -84,6 +132,31 @@ float init_pi_val(int32_t keycode, char *sin_or_cos);
 void calc_new_coordinate(t_hold *hold, int32_t keycode);
 void calc_new_look_dir(t_hold *hold, int32_t keycode);
 int32_t key_hook(int keycode, t_hold *hold);
+
+
+//!	ERROR:
+void	ft_error(char *err_msg);
+void	error_free(char *err_msg, t_cub *cub);
+
+
+//!	CUBUTILS:
+int	skip_space_tab(int i, char *line);
+void	check_file(char *file);
+
+
+//!	CHEKMAP:
+//	00_
+void	valid_elem(t_cub *cub);
+void	map_closed(t_cub *cub);
+void	resize_line(t_cub *cub, int i);
+void	resize_map(t_cub *cub);
+void	check_map(t_cub *cub);
+//	01_
+void	map_closed_2(t_cub *cub, int i, int j);
+void	player_in_map(t_cub *cub, int i, int j);
+int		empty_rows_2(t_cub *cub, int i);
+void	empty_rows(t_cub *cub);
+void	check_player(int player, t_cub *cub);
 
 
 
