@@ -3,9 +3,11 @@
 int32_t update_dot_position(t_hold *hold)
 {
 	mlx_clear_window(hold->mlx, hold->mlx_win);
-	mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->img_ptr, (hold->x) - 10, (hold->y) - 10);
-	put_info_on_window(hold);
-	draw_looking_direction(hold);
+	// mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->img_ptr, (hold->x) - 10, (hold->y) - 10);
+	// put_info_on_window(hold);
+	// draw_looking_direction(hold);
+    draw_hc_map(hold);
+    mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->img_ptr, 0, 0);
     return (0);
 }
 

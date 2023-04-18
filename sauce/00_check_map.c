@@ -21,11 +21,13 @@ void	valid_elem(t_cub *cub)
 				cub->player_pos_x = i;
 				cub->player_pos_y = j;
 				cub->player_dir = cub->map[i][j];
+				printf("check playerL [%c]\n", cub->map[i][j]);
 				player++;
 			}
 			else if (cub->map[i][j] != '1' && cub->map[i][j] != '0'
-				&& cub->map[i][j] != ' ')
+				&& cub->map[i][j] != ' ' && cub->map[i][j] != '\n')
 				error_free("Wrong element in the map!", cub);//could give pos.
+
 		}
 	}
 	check_player(player, cub);

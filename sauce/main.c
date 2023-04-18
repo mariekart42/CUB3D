@@ -7,24 +7,16 @@ int32_t	destroy_window(t_hold *hold)
 	exit(0);
 }
 
-// int32_t create_window(t_hold *hold)
-// {
-//     hold->mlx_win = mlx_new_window(hold->mlx, 1000, 800, WINDOW_NAME);
-//     if (!hold->mlx_win)
-// 	{
-// 		free(hold->mlx_win);
-// 		return (0);
-// 	}
-//     hold->bits_per_pixel = 8;
-//     hold->img_ptr = mlx_xpm_file_to_image(hold->mlx, "invader.xpm", (int*)&hold->x, (int*)&hold->y);
+void	my_mlx_pixel_put(t_hold *hold, int x, int y, int color)
+{
+	char	*dst;
 
-//     // hold->img_data = mlx_get_data_addr(hold->img_ptr, &hold->bits_per_pixel, &hold->img_width, &hold->img_height);
-    
-//     // if firection is N:
-//     hold->x_look = hold->x;
-//     hold->y_look = hold->y - LINE_LEN;
-//     return (1);
-// }
+	if (x < 1920 && y < 1020 && x > 0 && y > 0)
+	{
+		dst = hold->data_addr + (y * hold->size_line + x * (hold->bits_per_pixel / 8));
+		*(unsigned int *)dst = color;
+	}
+}
 
 void init_cub(t_hold *hold, char **argv)
 {
@@ -49,7 +41,7 @@ void init_cub(t_hold *hold, char **argv)
 }
 
 // gpt putline
-void draw_line(void *mlx, void *win, int x0, int y0, int x1, int y1, int color)
+void draw_line(t_hold *hold, int x0, int y0, int x1, int y1, int color)
 {
     int dx = abs(x1 - x0);
     int dy = abs(y1 - y0);
@@ -65,7 +57,7 @@ void draw_line(void *mlx, void *win, int x0, int y0, int x1, int y1, int color)
     int err = dx - dy;
     while (x0 != x1 || y0 != y1)
     {
-        mlx_pixel_put(mlx, win, x0, y0, color);
+        my_mlx_pixel_put(hold, x0, y0, color);
         int e2 = 2 * err;
         if (e2 > -dy)
         {
@@ -118,11 +110,10 @@ void init_window(t_hold *hold)
         // later free complete hold
 		ft_error("Failed to open mlx window!");
 	}
-    // hold->bits_per_pixel = 8;
-    hold->img_ptr = mlx_xpm_file_to_image(hold->mlx, "invader.xpm", (int*)&hold->x, (int*)&hold->y);
-
-    // hold->img_data = mlx_get_data_addr(hold->img_ptr, &hold->bits_per_pixel, &hold->img_width, &hold->img_height);
-    
+    hold->bits_per_pixel = 8;
+    // hold->img_ptr = mlx_xpm_file_to_image(hold->mlx, "invader.xpm", (int*)&hold->x, (int*)&hold->y);
+    hold->img_ptr = mlx_new_image(hold->mlx, 640, 480);
+    hold->data_addr = mlx_get_data_addr(hold->img_ptr, &hold->bits_per_pixel, &hold->size_line, &hold->endian);
     // if firection is N:
     hold->x_look = hold->x;
     hold->y_look = hold->y - LINE_LEN;
@@ -131,15 +122,21 @@ void init_window(t_hold *hold)
 int main(int argc, char **argv)
 {
     t_hold hold;
+    (void)argc;
     
     check_4_general_errors(argv, argc);
     init_structs(&hold, argv);
-    check_map(hold.cub);
     init_window(&hold);
-
-
+    parse(hold.cub);
+    // check_map(hold.cub);
+    // draw_hc_map(&hold);
+// printf("key hook still ok\n");
+exit(0);
     mlx_key_hook(hold.mlx_win, key_hook, &hold);
+        printf("still ok\n");
+
     mlx_loop_hook(hold.mlx, update_dot_position, &hold);
+        printf("2 still ok\n");
     mlx_loop(hold.mlx);
 }
 
@@ -149,7 +146,6 @@ int main(int argc, char **argv)
 //! NEXT:
 // - create 2d map
 // - key also works if pressed
-// - sidewide walk with angles
 
 
 //! GENERAL:

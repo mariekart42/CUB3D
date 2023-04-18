@@ -1,4 +1,67 @@
 #include "../inc/cub3d.h"
+#define mapWidth 24
+#define mapHeight 24
+#define screenWidth 640
+#define screenHeight 480
+
+int worldMap[mapWidth][mapHeight]=
+{
+  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
+  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
+  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,4,0,0,0,0,5,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+};
+
+void draw_field(t_hold *hold, float x1, float y1, float x2, float y2, int colour)
+{
+    int i = 0;
+    while(i < 30)
+    {
+        draw_line(hold, x1, y1+i, x2, y2+i, colour);
+        i++;
+    }
+}
+
+void draw_hc_map(t_hold *hold)
+{
+    int i = 1;
+    int k = 1;
+    int m = 30;
+
+    while(i<mapHeight+1)
+    {
+        while(k<mapWidth+1)
+        {
+            if(worldMap[i-1][k-1] == 0)
+                draw_field(hold, k*m, i*m, k*m+LINE_LEN, i*m, 0xcd4f39);
+            else
+                draw_field(hold, k*m, i*m, k*m+LINE_LEN, i*m, 0xab82ff);
+            k++;
+        }
+        k=1;
+        i++;
+    }
+}
 
 void put_cross(t_hold *hold,int x, int y)
 {
@@ -18,12 +81,12 @@ void put_cross(t_hold *hold,int x, int y)
 	{
 		x -= 1;
 		y += 1;
-		mlx_pixel_put(hold->mlx, hold->mlx_win, x, y, 0xb0e0e6);
-		mlx_pixel_put(hold->mlx, hold->mlx_win, x, y - 2 + (len * 2), 0xb0e0e6);
+		my_mlx_pixel_put(hold, x, y, 0xb0e0e6);
+		my_mlx_pixel_put(hold, x, y - 2 + (len * 2), 0xb0e0e6);
 		len--;
 	}
 	// middle point
-	mlx_pixel_put(hold->mlx, hold->mlx_win, save_x, save_y, 0XFF0000);
+	my_mlx_pixel_put(hold, save_x, save_y, 0XFF0000);
 }
 
 void draw_grit(t_hold *hold)
@@ -37,11 +100,11 @@ void draw_grit(t_hold *hold)
     {
         while (++x < HIGHT)
         {
-            mlx_pixel_put(hold->mlx, hold->mlx_win, i, x, 0xfffafa);
+            my_mlx_pixel_put(hold, i, x, 0xfffafa);
             if (x % factor ==0)
             {
                 while (++p < WIDHT)
-                    mlx_pixel_put(hold->mlx, hold->mlx_win, p, x, 0xfffafa);
+                    my_mlx_pixel_put(hold, p, x, 0xfffafa);
                 p = -1;
             }
         }
@@ -52,7 +115,7 @@ void draw_grit(t_hold *hold)
 
 void draw_looking_direction(t_hold *hold)
 {
-    draw_line(hold->mlx, hold->mlx_win, hold->x, hold->y, (hold->x_look), (hold->y_look), 0xbebebe);
+    draw_line(hold, hold->x, hold->y, (hold->x_look), (hold->y_look), 0xbebebe);
     put_cross(hold, hold->x, hold->y);
 }
 

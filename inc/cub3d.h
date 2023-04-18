@@ -5,6 +5,7 @@
 // ----------------------------------------------------------------------------
 //!		INCLUDES:
 #include <stdlib.h>
+#include <errno.h>		// errno
 #include <unistd.h>
 #include <stdio.h>		// debugging
 #include <math.h>		// cos and sin
@@ -29,6 +30,10 @@
 # define WINDOW_NAME "u gay"
 # define WIDHT 1000
 # define HIGHT 700
+// get_next_line
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 4096
+# endif
 #define PLAYER_POSITION_X 500
 #define PLAYER_POSITION_Y 200
 # define MLX_ERROR -1
@@ -47,6 +52,8 @@
 # define D 2
 
 // ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
 //!		STRUCTS:
 // ju's structs
 typedef struct	s_img
@@ -63,8 +70,8 @@ typedef struct	s_img
 
 typedef struct s_cub
 {
-	int		floor_colour;
-	int		ceiling_colour;
+	char	*floor_colour;
+	char	*ceiling_colour;
 	t_img	*img;
 	t_img	*img_2;
 	t_img	*img_north;
@@ -102,10 +109,10 @@ typedef struct s_hold
 	void	*mlx;
 	void	*mlx_win;
 	void	*img_ptr;
-	// char	*img_data;
-	// int32_t img_width;
-	// int32_t img_height;
-	// int32_t bits_per_pixel;
+	char	*data_addr;
+	int32_t bits_per_pixel;
+	int32_t size_line;
+	int32_t endian;
 
 	float x;
 	float y;
@@ -118,12 +125,18 @@ typedef struct s_hold
 
 // ----------------------------------------------------------------------------
 //!		FUNCTIONS:
-void draw_line(void *mlx, void *win, int x0, int y0, int x1, int y1, int color);
+void draw_line(t_hold *hold, int x0, int y0, int x1, int y1, int color);
+void	my_mlx_pixel_put(t_hold *hold, int x, int y, int color);
 
 int32_t init_hold(t_hold *hold);
 int32_t create_window(t_hold *hold);
 int32_t	destroy_window(t_hold *hold);
 
+
+//!	GETNEXTLINE:
+void	buff_after_line(char *buff);
+char	*create_last(char *buff, char *line);
+char	*get_next_line(int fd);
 
 
 //!	KEYEVENTS:
@@ -159,8 +172,20 @@ void	empty_rows(t_cub *cub);
 void	check_player(int player, t_cub *cub);
 
 
+//!	PARSE:
+// 00_
+char	*get_path(char *line, int i);
+int	check_line(t_cub *cub, char *line);
+void	parse(t_cub *cub);
+// 01_
+void	count_rows(t_cub *cub);
+void	init_map_2(t_cub *cub, char *line);
+void	init_map(t_cub *cub);
+
+
 
 // delete_later.c
+void draw_hc_map(t_hold *hold);
 void draw_line_of_view_of_player(t_hold *hold);
 void init_put_line(t_hold *hold, double want_x, double want_y);
 void draw_grit(t_hold *hold);
