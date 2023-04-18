@@ -89,9 +89,8 @@ void check_4_general_errors(char **argv, int32_t argc)
 
 void init_structs(t_hold *hold, char **argv)
 {
-    hold->mlx = mlx_init();
-    if (!hold->mlx)
-		ft_error("Failed to malloc for struct!");
+    hold->mlx = NULL;
+
     init_cub(hold, argv);
     hold->angle = ROTATION_ANGLE;
     hold->x = 100;
@@ -103,13 +102,7 @@ void init_structs(t_hold *hold, char **argv)
 
 void init_window(t_hold *hold)
 {
-    hold->mlx_win = mlx_new_window(hold->mlx, 1000, 800, WINDOW_NAME);
-    if (!hold->mlx_win)
-	{
-		free(hold->mlx_win);
-        // later free complete hold
-		ft_error("Failed to open mlx window!");
-	}
+
     hold->bits_per_pixel = 8;
     hold->img_ptr = mlx_xpm_file_to_image(hold->mlx, "invader.xpm", (int*)&hold->x, (int*)&hold->y);
     hold->img_ptr = mlx_new_image(hold->mlx, 640, 480);
@@ -119,6 +112,22 @@ void init_window(t_hold *hold)
     hold->y_look = hold->y - LINE_LEN;
 }
 
+void initialize_mlx(t_hold *hold)
+{
+    hold->mlx = mlx_init();
+    if (!hold->mlx)
+		ft_error("Failed to malloc for struct!");
+    hold->mlx_win = mlx_new_window(hold->mlx, 1000, 800, WINDOW_NAME);
+    if (!hold->mlx_win)
+	{
+		free(hold->mlx_win);
+        // later free complete hold
+		ft_error("Failed to open mlx window!");
+	}
+    hold->img_ptr = mlx_new_image(hold->mlx, 640, 480);
+    hold->data_addr = mlx_get_data_addr(hold->img_ptr, &hold->bits_per_pixel, &hold->size_line, &hold->endian);
+}
+
 int main(int argc, char **argv)
 {
     t_hold hold;
@@ -126,7 +135,7 @@ int main(int argc, char **argv)
     
     check_4_general_errors(argv, argc);
     init_structs(&hold, argv);
-    init_window(&hold);
+    initialize_mlx(&hold);
     parse(hold.cub);
 
     mlx_key_hook(hold.mlx_win, key_hook, &hold);

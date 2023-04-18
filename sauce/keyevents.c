@@ -2,12 +2,22 @@
 
 int32_t update_dot_position(t_hold *hold)
 {
-	mlx_clear_window(hold->mlx, hold->mlx_win);
-	// mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->img_ptr, (hold->x) - 10, (hold->y) - 10);
-	// put_info_on_window(hold);
-	// draw_looking_direction(hold);
-    draw_hc_map(hold);
+	// mlx_clear_window(hold->mlx, hold->mlx_win);
+    hold->img_ptr = mlx_new_image(hold->mlx, WIDHT, HIGHT);
+    // hold->player_img_ptr = mlx_new_image(hold->mlx, 10, 10);
+
+    hold->data_addr = mlx_get_data_addr(hold->img_ptr, &hold->bits_per_pixel, &hold->size_line, &hold->endian);
+    // hold->player_addr = mlx_get_data_addr(hold->player_img_ptr, &hold->bits_per_pixel, &hold->size_line, &hold->endian);
+
+    // draw_hc_map(hold);
+    printf("still ok\n");
+	put_info_on_window(hold);
+	draw_looking_direction(hold);
     mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->img_ptr, 0, 0);
+    // mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->player_img_ptr, 100, 500);
+	// mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->img_ptr, (hold->x) - 10, (hold->y) - 10);
+    mlx_destroy_image(hold->mlx, hold->img_ptr);
+    // mlx_destroy_image(hold->mlx, hold->player_img_ptr);
     return (0);
 }
 

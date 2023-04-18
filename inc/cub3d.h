@@ -110,6 +110,8 @@ typedef struct s_hold
 	void	*mlx_win;
 	void	*img_ptr;
 	char	*data_addr;
+	void	*player_img_ptr;
+	char	*player_addr;
 	int32_t bits_per_pixel;
 	int32_t size_line;
 	int32_t endian;
