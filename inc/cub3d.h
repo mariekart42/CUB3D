@@ -32,7 +32,7 @@
 # define HIGHT 700
 // get_next_line
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 4096
+#  define BUFFER_SIZE 1
 # endif
 #define PLAYER_POSITION_X 500
 #define PLAYER_POSITION_Y 200

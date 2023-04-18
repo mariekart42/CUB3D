@@ -111,7 +111,7 @@ void init_window(t_hold *hold)
 		ft_error("Failed to open mlx window!");
 	}
     hold->bits_per_pixel = 8;
-    // hold->img_ptr = mlx_xpm_file_to_image(hold->mlx, "invader.xpm", (int*)&hold->x, (int*)&hold->y);
+    hold->img_ptr = mlx_xpm_file_to_image(hold->mlx, "invader.xpm", (int*)&hold->x, (int*)&hold->y);
     hold->img_ptr = mlx_new_image(hold->mlx, 640, 480);
     hold->data_addr = mlx_get_data_addr(hold->img_ptr, &hold->bits_per_pixel, &hold->size_line, &hold->endian);
     // if firection is N:
@@ -128,15 +128,9 @@ int main(int argc, char **argv)
     init_structs(&hold, argv);
     init_window(&hold);
     parse(hold.cub);
-    // check_map(hold.cub);
-    // draw_hc_map(&hold);
-// printf("key hook still ok\n");
-exit(0);
-    mlx_key_hook(hold.mlx_win, key_hook, &hold);
-        printf("still ok\n");
 
+    mlx_key_hook(hold.mlx_win, key_hook, &hold);
     mlx_loop_hook(hold.mlx, update_dot_position, &hold);
-        printf("2 still ok\n");
     mlx_loop(hold.mlx);
 }
 

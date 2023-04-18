@@ -55,6 +55,9 @@ void	parse(t_cub *cub)
 		line = get_next_line(cub->fd);
 	}
 	if (!cub->map)
+	{
+		printf("map access kagge\n");
 		close(cub->fd);
+	}
 	check_map(cub);
 }

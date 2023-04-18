@@ -6,30 +6,34 @@ void	valid_elem(t_cub *cub)
 	int	j;
 	int	player;
 
-	i = -1;
+	i = 0;
 	player = 0;
 	if (!cub->map)
 		error_free("No map existing!", cub);
-	while (cub->map[++i])
+	while (cub->map[i])
 	{
-		j = -1;
-		while (cub->map[i][++j])
+		j = 0;
+		while (cub->map[i][j])
 		{
+		printf("%c ", cub->map[i][j]);
 			if (cub->map[i][j] == 'S' || cub->map[i][j] == 'N'
 				|| cub->map[i][j] == 'W' || cub->map[i][j] == 'E')
 			{
 				cub->player_pos_x = i;
 				cub->player_pos_y = j;
 				cub->player_dir = cub->map[i][j];
-				printf("check playerL [%c]\n", cub->map[i][j]);
+				// printf("check playerL [%c] pos:[%d][%d]\n", cub->map[i][j], i, j);
 				player++;
 			}
 			else if (cub->map[i][j] != '1' && cub->map[i][j] != '0'
 				&& cub->map[i][j] != ' ' && cub->map[i][j] != '\n')
 				error_free("Wrong element in the map!", cub);//could give pos.
-
+			j++;
 		}
+		printf("\n");
+		i++;
 	}
+		printf("\n");
 	check_player(player, cub);
 }
 
