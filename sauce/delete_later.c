@@ -9,7 +9,7 @@ int worldMap[mapWidth][mapHeight]=
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0},
   {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
   {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
@@ -37,7 +37,7 @@ void draw_field(t_hold *hold, float x1, float y1, float x2, float y2, int colour
     int i = 0;
     while(i < 30)
     {
-        draw_line(hold, x1, y1+i, x2, y2+i, colour);
+        draw_line(hold, x1+300, y1+i-20, x2+300, y2+i-20, colour);
         i++;
     }
 }
@@ -46,14 +46,14 @@ void draw_hc_map(t_hold *hold)
 {
     int i = 1;
     int k = 1;
-    int m = 30;
+    int m = 40;
 
     while(i<mapHeight+1)
     {
         while(k<mapWidth+1)
         {
             if(worldMap[i-1][k-1] == 0)
-                draw_field(hold, k*m, i*m, k*m+LINE_LEN, i*m, 0xcd4f39);
+                draw_field(hold, k*m, i*m, k*m+LINE_LEN, i*m, 0);
             else
                 draw_field(hold, k*m, i*m, k*m+LINE_LEN, i*m, 0xab82ff);
             k++;
@@ -116,7 +116,7 @@ void draw_grit(t_hold *hold)
 void draw_looking_direction(t_hold *hold)
 {
     draw_line(hold, hold->x, hold->y, (hold->x_look), (hold->y_look), 0xbebebe);
-    put_cross(hold, hold->x, hold->y);
+    // put_cross(hold, hold->x, hold->y);
 }
 
 void put_info_on_window(t_hold *hold)
