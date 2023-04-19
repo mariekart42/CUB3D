@@ -28,8 +28,8 @@
 # define RESET "\x1B[0m"
 
 # define WINDOW_NAME "u gay"
-# define WIDHT 1000
-# define HIGHT 700
+# define WIDHT 1500
+# define HIGHT 1000
 // get_next_line
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1
@@ -143,7 +143,7 @@ char	*get_next_line(int fd);
 
 //!	KEYEVENTS:
 int32_t update_dot_position(t_hold *hold);
-float init_pi_val(int32_t keycode, char *sin_or_cos);
+float pi_val(int32_t keycode, char *sin_or_cos);
 void calc_new_coordinate(t_hold *hold, int32_t keycode);
 void calc_new_look_dir(t_hold *hold, int32_t keycode);
 int32_t key_hook(int keycode, t_hold *hold);

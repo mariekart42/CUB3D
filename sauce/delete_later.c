@@ -81,8 +81,8 @@ void put_cross(t_hold *hold,int x, int y)
 	{
 		x -= 1;
 		y += 1;
-		my_mlx_pixel_put(hold, x, y, 0xb0e0e6);
-		my_mlx_pixel_put(hold, x, y - 2 + (len * 2), 0xb0e0e6);
+		my_mlx_pixel_put(hold, x, y, 0x8db6cd);
+		my_mlx_pixel_put(hold, x, y - 2 + (len * 2), 0x8db6cd);
 		len--;
 	}
 	// middle point
@@ -123,18 +123,18 @@ void put_info_on_window(t_hold *hold)
 {
     char str[20];
     sprintf(str, "%f", hold->x); 
-    mlx_string_put(hold->mlx, hold->mlx_win, 10, 750, 0xeeeed1, "x: ");
-    mlx_string_put(hold->mlx, hold->mlx_win, 30, 750, 0xeeeed1, str);
+    mlx_string_put(hold->mlx, hold->mlx_win, 10, 950, 0xeeeed1, "x: ");
+    mlx_string_put(hold->mlx, hold->mlx_win, 30, 950, 0xeeeed1, str);
     sprintf(str, "%f", hold->y); 
-    mlx_string_put(hold->mlx, hold->mlx_win, 10, 770, 0xeeeed1, "y: ");
-    mlx_string_put(hold->mlx, hold->mlx_win, 30, 770, 0xeeeed1, str);
+    mlx_string_put(hold->mlx, hold->mlx_win, 10, 970, 0xeeeed1, "y: ");
+    mlx_string_put(hold->mlx, hold->mlx_win, 30, 970, 0xeeeed1, str);
     sprintf(str, "%f", hold->x_look); 
-    mlx_string_put(hold->mlx, hold->mlx_win, 130, 750, 0xeec900, "x_look: ");
-    mlx_string_put(hold->mlx, hold->mlx_win, 200, 750, 0xeec900, str);
+    mlx_string_put(hold->mlx, hold->mlx_win, 130, 950, 0xeec900, "x_look: ");
+    mlx_string_put(hold->mlx, hold->mlx_win, 200, 950, 0xeec900, str);
     sprintf(str, "%f", hold->y_look); 
-    mlx_string_put(hold->mlx, hold->mlx_win, 130, 770, 0xeec900, "y_look: ");
-    mlx_string_put(hold->mlx, hold->mlx_win, 200, 770, 0xeec900, str);
+    mlx_string_put(hold->mlx, hold->mlx_win, 130, 970, 0xeec900, "y_look: ");
+    mlx_string_put(hold->mlx, hold->mlx_win, 200, 970, 0xeec900, str);
     sprintf(str, "%f", hold->angle); 
-    mlx_string_put(hold->mlx, hold->mlx_win, 10, 730, 0xff82ab, "angle: ");
-    mlx_string_put(hold->mlx, hold->mlx_win, 75, 730, 0xff82ab, str);
+    mlx_string_put(hold->mlx, hold->mlx_win, 10, 930, 0xff82ab, "angle: ");
+    mlx_string_put(hold->mlx, hold->mlx_win, 75, 930, 0xff82ab, str);
 }
