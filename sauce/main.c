@@ -72,14 +72,6 @@ void draw_line(t_hold *hold, int x0, int y0, int x1, int y1, int color)
     }
 }
 
-// // direction vector is equal to the letter parsed from map file
-// void init_direction_vector(t_hold *hold)
-// {
-//     // if letter N:
-//     hold->x_look = PLAYER_POSITION_X;
-//     hold->y_look = PLAYER_POSITION_Y - LINE_LEN;
-// }
-
 void check_4_general_errors(char **argv, int32_t argc)
 {
     if (argc != 2)
@@ -94,7 +86,6 @@ void init_structs(t_hold *hold, char **argv)
     hold->y = 100;
     init_cub(hold, argv);
 }
-
 
 void initialize_mlx(t_hold *hold)
 {
@@ -113,19 +104,31 @@ void initialize_mlx(t_hold *hold)
     hold->endian = 0;
     hold->player_img_ptr = mlx_xpm_file_to_image(hold->mlx, "invader.xpm", (int*)&hold->x, (int*)&hold->y);
     hold->img_ptr = mlx_new_image(hold->mlx, WIDHT, HIGHT);
-    // hold->player_addr = mlx_get_data_addr(hold->player_img_ptr, &hold->bits_per_pixel, &hold->size_line, &hold->endian);
-    // hold->bits_per_pixel = 8;
-    // hold->size_line = 0;
-    // hold->endian = 0;
     hold->data_addr = mlx_get_data_addr(hold->img_ptr, &hold->bits_per_pixel, &hold->size_line, &hold->endian);
     hold->x = PLAYER_POSITION_X;
     hold->y = PLAYER_POSITION_Y;
     hold->x_look = hold->x;
     hold->y_look = hold->y - LINE_LEN;
-    // hold->angle = 0.4;
     hold->angle = ROTATION_ANGLE;
     hold->go = false;
 }
+
+// void calc_intersect_wall()
+// {
+    
+// }
+
+// void raycast(t_hold *hold)
+// {
+//     int32_t x =0;
+//     while (x<WIDHT)
+//     {
+//         calc_intersect_wall();
+//         calc_distance_wall_to_plane();
+//         draw_horizontal_line();
+//         x++;
+//     }
+// }
 
 int main(int argc, char **argv)
 {
@@ -137,9 +140,7 @@ int main(int argc, char **argv)
     initialize_mlx(&hold);
     parse(hold.cub);
 
-//mlx_hook(hive->vars->win, 2, 0, &key_hook, hive);
     mlx_hook(hold.mlx_win, 2, 0, key_hook, &hold);
-    // mlx_key_hook(hold.mlx_win, key_hook, &hold);//before
     mlx_loop_hook(hold.mlx, update_dot_position, &hold);
     mlx_do_sync(hold.mlx);
     mlx_loop(hold.mlx);

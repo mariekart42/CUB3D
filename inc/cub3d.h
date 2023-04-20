@@ -30,6 +30,7 @@
 # define WINDOW_NAME "u gay"
 # define WIDHT 1500
 # define HIGHT 1000
+# define TILE_SIZE 100
 // get_next_line
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1
@@ -41,7 +42,7 @@
 // # define SPEED 5
 # define ROTATION_ANGLE 0.4
 // # define STEP_SIZE 20
-# define LINE_LEN 50
+# define LINE_LEN 40
 
 // directions:
 # define LEFT 123
@@ -120,6 +121,7 @@ typedef struct s_hold
 	float y;
 	float x_look;
 	float y_look;
+	float	hit_wall[2];
 	float angle;
 	bool go;
 	struct s_cub	*cub;
@@ -187,6 +189,7 @@ void	init_map(t_cub *cub);
 
 
 // delete_later.c
+void draw_my_map2(t_hold *hold);
 void draw_hc_map(t_hold *hold);
 void draw_line_of_view_of_player(t_hold *hold);
 void init_put_line(t_hold *hold, double want_x, double want_y);

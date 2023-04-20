@@ -2,24 +2,9 @@
 
 int32_t update_dot_position(t_hold *hold)
 {
-
-    
-	// mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->img_ptr, 0, 0);
-	// mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->player_img_ptr, 0, 0);
-
-    // hold->player_img_ptr = mlx_new_image(hold->mlx, 10, 10);
-    // hold->player_addr = mlx_get_data_addr(hold->player_img_ptr, &hold->bits_per_pixel, &hold->size_line, &hold->endian);
-    // printf("still ok\n");
-// hold->player_img_ptr = mlx_xpm_file_to_image(hold->mlx, "invader.xpm", (int*)&hold->x, (int*)&hold->y);
-
-    // mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->player_img_ptr, 0, 0);
-    // mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->player_img_ptr, 100, 500);
-    // mlx_destroy_image(hold->mlx, hold->img_ptr);
-
-    // if (hold->go ==false)
-	//     mlx_clear_window(hold->mlx, hold->mlx_win);
     mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->img_ptr, 0, 0);
-    draw_hc_map(hold);
+    // draw_hc_map(hold);
+    draw_my_map2(hold);
 	draw_looking_direction(hold);
 	put_info_on_window(hold);
     mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->player_img_ptr, hold->x-10, hold->y-10);
