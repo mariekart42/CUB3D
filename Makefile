@@ -17,6 +17,7 @@ SRC		=	sauce/main.c \
 			sauce/00_parse.c \
 			sauce/01_parse.c \
 			sauce/get_next_line.c \
+			sauce/raycast.c \
 			sauce/keyevents.c
 
 SRC_PATH = sauce/

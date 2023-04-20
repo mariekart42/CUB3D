@@ -30,27 +30,34 @@
 # define WINDOW_NAME "u gay"
 # define WIDHT 1500
 # define HIGHT 1000
-# define TILE_SIZE 100
+# define ROTATION_ANGLE 0.06
+
 // get_next_line
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1
 # endif
-#define PLAYER_POSITION_X 500
-#define PLAYER_POSITION_Y 200
-# define MLX_ERROR -1
-# define ESCAPE 53
-// # define SPEED 5
-# define ROTATION_ANGLE 0.4
-// # define STEP_SIZE 20
-# define LINE_LEN 40
 
-// directions:
+
+#define PLAYER_POSITION_X 500//delete later
+#define PLAYER_POSITION_Y 200//delete later
+
+# define MLX_ERROR -1
+
+// # define SPEED 5 // implement later if possible
+
+// maybe hc later in beginning of program:
+# define TILE_SIZE 100
+# define STEPS_PER_TILE 5
+# define LINE_LEN TILE_SIZE/STEPS_PER_TILE
+
+// keycodes:
 # define LEFT 123
 # define RIGHT 124
 # define W 13
 # define A 0
 # define S 1
 # define D 2
+# define ESCAPE 53
 
 // ----------------------------------------------------------------------------
 
@@ -68,6 +75,12 @@ typedef struct	s_img
 	int		height;
 	int		width;
 }				t_img;
+
+typedef struct s_minimap
+{
+	float	pos[2];
+	float	look[2];
+}				t_minimap;
 
 typedef struct s_cub
 {
@@ -117,24 +130,27 @@ typedef struct s_hold
 	int32_t size_line;
 	int32_t endian;
 
-	float x;
-	float y;
-	float x_look;
-	float y_look;
-	float	hit_wall[2];
+	float	pos[2];
+	float	look[2];
+
+	float	wall[2];
 	float angle;
 	bool go;
 	struct s_cub	*cub;
+	struct s_minimap	*minimap;
 }						t_hold;
 
 // ----------------------------------------------------------------------------
 //!		FUNCTIONS:
 void draw_line(t_hold *hold, int x0, int y0, int x1, int y1, int color);
 void	my_mlx_pixel_put(t_hold *hold, int x, int y, int color);
-
+void init_minimap(t_hold *hold);
 int32_t init_hold(t_hold *hold);
 int32_t create_window(t_hold *hold);
 int32_t	destroy_window(t_hold *hold);
+
+
+//!	RAYCAST:
 
 
 //!	GETNEXTLINE:

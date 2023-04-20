@@ -66,60 +66,31 @@ void draw_hc_map(t_hold *hold)
     }
 }
 
-// void draw_my_map(t_hold *hold)
-// {
-//     int32_t x = 0;
-//     int32_t y = 0;
-//     int32_t mx = 50;
-//     int32_t my = 50;
-//     int start_x = 100;
-//     int start_y = 50;
-
-//     while (hold->cub->map[y])
-//     {
-//         while(hold->cub->map[x])
-//         {
-//             if(hold->cub->map[y][x] == 49)
-//                 draw_field(hold, (x*mx)+start_x, (y*my)+start_y, (x*mx)+start_x, (y*my)+start_y, 0xf0f8ff);
-//             else
-//                 draw_field(hold, (x*mx)+start_x, (y*my)+start_y, (x*mx)+start_x, (y*my)+start_y, 0xdeb887);
-//             x++;
-//         }
-//         // mx=50;
-//         x=0;
-//         y++;
-//     }
-// }
-
 void draw_my_map2(t_hold *hold)
 {
     int32_t i = 0;
     int32_t x = 0;
     int32_t y = 0;
-    // int32_t x_val = 200;
-    int bigger = 40;
-    int32_t y_val = 100;
+    int32_t begin = 20; // where we start minimap (coordinate [begin|begin])
+    int32_t y_val = begin;
     while(hold->cub->map[y])
     {
         while(hold->cub->map[y][x])
         {
-            while(i<bigger)
+            while(i<TILE_SIZE)
             {
-                draw_line(hold, x*bigger+100, y_val+i, x*bigger+bigger+100, y_val+i, 0xd3d3d3);
+                draw_line(hold, x*TILE_SIZE+begin, y_val+i, x*TILE_SIZE+TILE_SIZE+begin, y_val+i, 0xd3d3d3);
                 i++;
             }
-                draw_line(hold, x*bigger+100, y_val+i-1, x*bigger+100, y_val+i-1-bigger, 0x5cacee);
-                draw_line(hold, x*bigger+100, y_val+i-1, x*bigger+100+bigger, y_val+i-1, 0x5cacee);
-            // x_val+=10;
+                draw_line(hold, x*TILE_SIZE+begin, y_val+i-1, x*TILE_SIZE+begin, y_val+i-1-TILE_SIZE, 0x5cacee);
+                draw_line(hold, x*TILE_SIZE+begin, y_val+i-1, x*TILE_SIZE+begin+TILE_SIZE, y_val+i-1, 0x5cacee);
             i=0;
             x++;
         }
-printf("[y: %d]  x: %d\n", y, x);
-        y_val+=bigger;
+        y_val+=TILE_SIZE;
         x=0;
         y++;
     }
-    // exit(0);
 }
 
 void put_cross(t_hold *hold,int x, int y)
@@ -174,23 +145,23 @@ void put_cross(t_hold *hold,int x, int y)
 
 void draw_looking_direction(t_hold *hold)
 {
-    draw_line(hold, hold->x, hold->y, (hold->x_look), (hold->y_look), 0xbebebe);
-    // put_cross(hold, hold->x, hold->y);
+    draw_line(hold, hold->pos[0], hold->pos[1], (hold->look[0]), (hold->look[1]), 0x0);
+    // put_cross(hold, hold->x, hold->y); 
 }
 
 void put_info_on_window(t_hold *hold)
 {
     char str[20];
-    sprintf(str, "%f", hold->x); 
+    sprintf(str, "%f", hold->pos[0]); 
     mlx_string_put(hold->mlx, hold->mlx_win, 10, 950, 0xeeeed1, "x: ");
     mlx_string_put(hold->mlx, hold->mlx_win, 30, 950, 0xeeeed1, str);
-    sprintf(str, "%f", hold->y); 
+    sprintf(str, "%f", hold->pos[1]); 
     mlx_string_put(hold->mlx, hold->mlx_win, 10, 970, 0xeeeed1, "y: ");
     mlx_string_put(hold->mlx, hold->mlx_win, 30, 970, 0xeeeed1, str);
-    sprintf(str, "%f", hold->x_look); 
+    sprintf(str, "%f", hold->look[0]); 
     mlx_string_put(hold->mlx, hold->mlx_win, 130, 950, 0xeec900, "x_look: ");
     mlx_string_put(hold->mlx, hold->mlx_win, 200, 950, 0xeec900, str);
-    sprintf(str, "%f", hold->y_look); 
+    sprintf(str, "%f", hold->look[1]); 
     mlx_string_put(hold->mlx, hold->mlx_win, 130, 970, 0xeec900, "y_look: ");
     mlx_string_put(hold->mlx, hold->mlx_win, 200, 970, 0xeec900, str);
     sprintf(str, "%f", hold->angle); 

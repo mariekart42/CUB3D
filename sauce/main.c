@@ -79,12 +79,19 @@ void check_4_general_errors(char **argv, int32_t argc)
     check_file(argv[1]);
 }
 
+void init_minimap(t_hold *hold)
+{
+    hold->minimap = malloc(sizeof(t_minimap));
+
+}
+
 void init_structs(t_hold *hold, char **argv)
 {
     hold->mlx = NULL;
-    hold->x = 100;
-    hold->y = 100;
+    hold->pos[0] = 100;
+    hold->pos[1] = 100;
     init_cub(hold, argv);
+    init_minimap(hold);
 }
 
 void initialize_mlx(t_hold *hold)
@@ -102,20 +109,47 @@ void initialize_mlx(t_hold *hold)
     hold->bits_per_pixel = 8;
     hold->size_line = 0;
     hold->endian = 0;
-    hold->player_img_ptr = mlx_xpm_file_to_image(hold->mlx, "invader.xpm", (int*)&hold->x, (int*)&hold->y);
+    hold->player_img_ptr = mlx_xpm_file_to_image(hold->mlx, "invader.xpm", (int*)&hold->pos[0], (int*)&hold->pos[1]);
     hold->img_ptr = mlx_new_image(hold->mlx, WIDHT, HIGHT);
     hold->data_addr = mlx_get_data_addr(hold->img_ptr, &hold->bits_per_pixel, &hold->size_line, &hold->endian);
-    hold->x = PLAYER_POSITION_X;
-    hold->y = PLAYER_POSITION_Y;
-    hold->x_look = hold->x;
-    hold->y_look = hold->y - LINE_LEN;
+    hold->pos[0] = PLAYER_POSITION_X;
+    hold->pos[1] = PLAYER_POSITION_Y;
+    hold->look[0] = hold->pos[0];
+    hold->look[1] = hold->pos[1] - LINE_LEN;
     hold->angle = ROTATION_ANGLE;
     hold->go = false;
 }
 
-// void calc_intersect_wall()
+// bool hit_wall(t_hold *hold, int32_t curr_x, int32_t curr_y)
 // {
-    
+//     int round_x;
+//     int round_y;
+
+//     round_x = curr_x%TILE_SIZE;
+//     round_y = curr_y%TILE_SIZE;
+//     if (round_x == 0 || round_y == 0)
+//     {
+//         if (hold->cub->map[round_x][round_y] == 1)
+//         {
+//             hold->wall[0] = curr_x;
+//             hold->wall[1] = curr_y;
+//             return (true);
+//         }
+//     }
+//     return (false);
+// }
+
+// void calc_intersect_wall(t_hold *hold)
+// {
+//     float x = hold->pos[0];
+//     float y = hold->pos[1];
+//     int32_t i =0;
+//     while (1)
+//     {
+//         if (hit_wall(hold, x, y) == true)
+//             break;
+//         x = hold->look[0]
+//     }
 // }
 
 // void raycast(t_hold *hold)
@@ -123,9 +157,9 @@ void initialize_mlx(t_hold *hold)
 //     int32_t x =0;
 //     while (x<WIDHT)
 //     {
-//         calc_intersect_wall();
+//         calc_intersect_wall(hold);
 //         calc_distance_wall_to_plane();
-//         draw_horizontal_line();
+//         draw_vertical_line();
 //         x++;
 //     }
 // }
