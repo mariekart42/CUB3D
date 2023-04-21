@@ -120,24 +120,24 @@ void initialize_mlx(t_hold *hold)
     hold->go = false;
 }
 
-bool hit_wall(t_hold *hold, int32_t curr_x, int32_t curr_y)
-{
-    int round_x;
-    int round_y;
+// bool hit_wall(t_hold *hold, int32_t curr_x, int32_t curr_y)
+// {
+//     int round_x;
+//     int round_y;
 
-    round_x = curr_x%TILE_SIZE;
-    round_y = curr_y%TILE_SIZE;
-    if (round_x == 0 || round_y == 0)
-    {
-        if (hold->cub->map[round_x][round_y] == 1)
-        {
-            hold->wall[0] = curr_x;
-            hold->wall[1] = curr_y;
-            return (true);
-        }
-    }
-    return (false);
-}
+//     round_x = curr_x%TILE_SIZE;
+//     round_y = curr_y%TILE_SIZE;
+//     if (round_x == 0 || round_y == 0)
+//     {
+//         if (hold->cub->map[round_x][round_y] == 1)
+//         {
+//             hold->wall[0] = curr_x;
+//             hold->wall[1] = curr_y;
+//             return (true);
+//         }
+//     }
+//     return (false);
+// }
 
 // void next_step(float tmp_pos[1][2], float tmp_look[1][2])
 // {
@@ -209,7 +209,7 @@ int main(int argc, char **argv)
     check_4_general_errors(argv, argc);
     init_structs(&hold, argv);
     initialize_mlx(&hold);
-    parse(hold, hold.cub);
+    parse(&hold, hold.cub);
 
     mlx_hook(hold.mlx_win, 2, 0, key_hook, &hold);
     mlx_loop_hook(hold.mlx, update_dot_position, &hold);

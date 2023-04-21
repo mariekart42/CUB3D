@@ -66,32 +66,32 @@ void draw_hc_map(t_hold *hold)
     }
 }
 
-void draw_my_map2(t_hold *hold)
-{
-    int32_t i = 0;
-    int32_t x = 0;
-    int32_t y = 0;
-    int32_t begin = 20; // where we start minimap (coordinate [begin|begin])
-    int32_t y_val = begin;
-    while(hold->cub->map[y])
-    {
-        while(hold->cub->map[y][x])
-        {
-            while(i<TILE_SIZE)
-            {
-                draw_line(hold, x*TILE_SIZE+begin, y_val+i, x*TILE_SIZE+TILE_SIZE+begin, y_val+i, 0xd3d3d3);
-                i++;
-            }
-                draw_line(hold, x*TILE_SIZE+begin, y_val+i-1, x*TILE_SIZE+begin, y_val+i-1-TILE_SIZE, 0x5cacee);
-                draw_line(hold, x*TILE_SIZE+begin, y_val+i-1, x*TILE_SIZE+begin+TILE_SIZE, y_val+i-1, 0x5cacee);
-            i=0;
-            x++;
-        }
-        y_val+=TILE_SIZE;
-        x=0;
-        y++;
-    }
-}
+// void draw_my_map2(t_hold *hold)
+// {
+//     int32_t i = 0;
+//     int32_t x = 0;
+//     int32_t y = 0;
+//     int32_t begin = 20; // where we start minimap (coordinate [begin|begin])
+//     int32_t y_val = begin;
+//     while(hold->cub->map[y])
+//     {
+//         while(hold->cub->map[y][x])
+//         {
+//             while(i<TILE_SIZE)
+//             {
+//                 draw_line(hold, x*TILE_SIZE+begin, y_val+i, x*TILE_SIZE+TILE_SIZE+begin, y_val+i, 0xd3d3d3);
+//                 i++;
+//             }
+//                 draw_line(hold, x*TILE_SIZE+begin, y_val+i-1, x*TILE_SIZE+begin, y_val+i-1-TILE_SIZE, 0x5cacee);
+//                 draw_line(hold, x*TILE_SIZE+begin, y_val+i-1, x*TILE_SIZE+begin+TILE_SIZE, y_val+i-1, 0x5cacee);
+//             i=0;
+//             x++;
+//         }
+//         y_val+=TILE_SIZE;
+//         x=0;
+//         y++;
+//     }
+// }
 
 void put_cross(t_hold *hold,int x, int y)
 {

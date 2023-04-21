@@ -46,10 +46,10 @@
 // # define SPEED 5 // implement later if possible
 
 // maybe hc later in beginning of program:
-# define TILE_SIZE 1
-# define STEPS_PER_TILE 10
-# define LINE_LEN TILE_SIZE/STEPS_PER_TILE
-
+// # define TILE_SIZE 1
+// # define STEPS_PER_TILE 10
+// # define LINE_LEN TILE_SIZE/STEPS_PER_TILE
+# define LINE_LEN 4
 // keycodes:
 # define LEFT 123
 # define RIGHT 124
@@ -138,6 +138,7 @@ typedef struct s_hold
 	int32_t	step[2];
 
 	float	delta_dist[2];
+	float	wall_dist;
 	float	side_dist[2];
 	int32_t	side;
 
@@ -160,6 +161,7 @@ int32_t	destroy_window(t_hold *hold);
 
 
 //!	RAYCAST:
+void dda(t_hold *hold);
 
 
 //!	GETNEXTLINE:
@@ -205,7 +207,7 @@ void	check_player(int player, t_cub *cub);
 // 00_
 char	*get_path(char *line, int i);
 int	check_line(t_cub *cub, char *line);
-void	parse(t_cub *cub);
+void	parse(t_hold *hold, t_cub *cub);
 // 01_
 void	count_rows(t_cub *cub);
 void	init_map_2(t_cub *cub, char *line);

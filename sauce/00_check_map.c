@@ -22,7 +22,9 @@ void	valid_elem(t_hold *hold, t_cub *cub)
 				hold->map_pos[0] = i;
 				hold->map_pos[1] = j;
 				hold->pos[0] = i +0.5;
+				hold->look[0] = i +0.5;
 				hold->pos[1] = j +0.5;
+				hold->look[1] = j +0.5-LINE_LEN;
 				cub->player_dir = cub->map[i][j];
 				// printf("check playerL [%c] pos:[%d][%d]\n", cub->map[i][j], i, j);
 				player++;

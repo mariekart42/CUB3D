@@ -6,14 +6,20 @@ int32_t update_dot_position(t_hold *hold)
     // draw_hc_map(hold);
 
 // draw look
-draw_line(hold, hold->pos[0], hold->pos[1], (hold->look[0])*5, (hold->look[1])*5, 0x778899);
+// draw_line(hold, hold->pos[0], hold->pos[1], (hold->look[0])*5, (hold->look[1])*5, 0x778899);
 
-
-    draw_my_map2(hold);
-    if(hold->go == true)
-        raycast(hold);
-	draw_looking_direction(hold);
-	put_info_on_window(hold);
+int32_t i = 0;
+    // draw_my_map2(hold);
+    while(i<HIGHT)
+    {
+        // raycast(hold);
+        draw_line(hold, hold->wall_dist+100, i, hold->wall_dist, i, 0xff00);
+        i++;
+    }
+	// draw_looking_direction(hold);
+	// put_info_on_window(hold);
+    // hold->map_pos[0] = 0;
+    // hold->map_pos[1] = 0;
     mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->player_img_ptr, hold->pos[0]-10, hold->pos[1]-10);
     mlx_do_sync(hold->mlx);
     return (0);

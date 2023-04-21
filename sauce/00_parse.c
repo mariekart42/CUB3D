@@ -35,7 +35,7 @@ int	check_line(t_cub *cub, char *line)
 	return (0);
 }
 
-void	parse(t_cub *cub)
+void	parse(t_hold *hold, t_cub *cub)
 {
 	char	*line;
 
@@ -59,5 +59,5 @@ void	parse(t_cub *cub)
 		printf("map access kagge\n");
 		close(cub->fd);
 	}
-	check_map(cub);
+	check_map(hold, cub);
 }
