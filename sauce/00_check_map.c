@@ -1,6 +1,6 @@
 #include "../inc/cub3d.h"
 
-void	valid_elem(t_cub *cub)
+void	valid_elem(t_hold *hold, t_cub *cub)
 {
 	int	i;
 	int	j;
@@ -19,8 +19,10 @@ void	valid_elem(t_cub *cub)
 			if (cub->map[i][j] == 'S' || cub->map[i][j] == 'N'
 				|| cub->map[i][j] == 'W' || cub->map[i][j] == 'E')
 			{
-				cub->player_pos_x = i;
-				cub->player_pos_y = j;
+				hold->map_pos[0] = i;
+				hold->map_pos[1] = j;
+				hold->pos[0] = i +0.5;
+				hold->pos[1] = j +0.5;
 				cub->player_dir = cub->map[i][j];
 				// printf("check playerL [%c] pos:[%d][%d]\n", cub->map[i][j], i, j);
 				player++;
@@ -88,9 +90,9 @@ void	resize_map(t_cub *cub)
 	}
 }
 
-void	check_map(t_cub *cub)
+void	check_map(t_hold *hold, t_cub *cub)
 {
-	valid_elem(cub);
+	valid_elem(hold, cub);
 	empty_rows(cub);
 	resize_map(cub);
 	map_closed(cub);

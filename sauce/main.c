@@ -120,35 +120,72 @@ void initialize_mlx(t_hold *hold)
     hold->go = false;
 }
 
-// bool hit_wall(t_hold *hold, int32_t curr_x, int32_t curr_y)
-// {
-//     int round_x;
-//     int round_y;
+bool hit_wall(t_hold *hold, int32_t curr_x, int32_t curr_y)
+{
+    int round_x;
+    int round_y;
 
-//     round_x = curr_x%TILE_SIZE;
-//     round_y = curr_y%TILE_SIZE;
-//     if (round_x == 0 || round_y == 0)
-//     {
-//         if (hold->cub->map[round_x][round_y] == 1)
-//         {
-//             hold->wall[0] = curr_x;
-//             hold->wall[1] = curr_y;
-//             return (true);
-//         }
-//     }
-//     return (false);
+    round_x = curr_x%TILE_SIZE;
+    round_y = curr_y%TILE_SIZE;
+    if (round_x == 0 || round_y == 0)
+    {
+        if (hold->cub->map[round_x][round_y] == 1)
+        {
+            hold->wall[0] = curr_x;
+            hold->wall[1] = curr_y;
+            return (true);
+        }
+    }
+    return (false);
+}
+
+// void next_step(float tmp_pos[1][2], float tmp_look[1][2])
+// {
+//     float store_x;
+//     float tmp[2];
+
+//     tmp[0] = *tmp_look[0] - *tmp_pos[0];
+//     tmp[1] = *tmp_pos[1] - *tmp_look[1];
+//     store_x = *tmp_pos[0];
+//     *tmp_pos[0] = *tmp_pos[0] + (*tmp_look[0] - *tmp_pos[0]);
+//     *tmp_pos[1] = *tmp_pos[1] + (*tmp_look[1] - *tmp_pos[1]);
+//     *tmp_look[0] = *tmp_pos[0] + tmp[0];
+//     *tmp_look[1] = *tmp_pos[1] - tmp[1];
 // }
 
 // void calc_intersect_wall(t_hold *hold)
 // {
-//     float x = hold->pos[0];
-//     float y = hold->pos[1];
+//     float tmp_pos[2];
+//     float tmp_look[2];
+//     float tmp[2];
+
+//     tmp_pos[0] = hold->pos[0];
+//     tmp_pos[1] = hold->pos[1];
+//     tmp_look[0] = hold->look[0];
+//     tmp_look[1] = hold->look[1];
+//     tmp[0] = tmp_look[0] - tmp_pos[0];
+//     tmp[1] = tmp_pos[1] - tmp_look[1];
 //     int32_t i =0;
 //     while (1)
 //     {
-//         if (hit_wall(hold, x, y) == true)
+//         draw_line(hold, tmp_pos[0], tmp_pos[1], tmp_look[0], tmp_look[1], 0x2f4f4f);
+//         if (hit_wall(hold, tmp_pos[0], tmp_pos[1]) == true)
+//         {
+//             printf("hit a wallll\n");
+//             exit(0);
 //             break;
-//         x = hold->look[0]
+//         }
+//         // next_step(&tmp_pos, &tmp_look);
+//         // printf()
+//         tmp_pos[0] = tmp_pos[0] + (tmp_look[0] - tmp_pos[0]);
+//         tmp_pos[1] = tmp_pos[1] + (tmp_look[1] - tmp_pos[1]);
+//         tmp_look[0] = tmp_pos[0] + tmp[0];
+//         tmp_look[1] = tmp_pos[1] - tmp[1];
+//     tmp[0] = tmp_look[0] - tmp_pos[0];
+//     tmp[1] = tmp_pos[1] - tmp_look[1];
+//         draw_line(hold, tmp_pos[0], tmp_pos[1], tmp_look[0], tmp_look[1], 0xeedd82);
+//         // sleep(2);
+//         i++;
 //     }
 // }
 
@@ -158,8 +195,8 @@ void initialize_mlx(t_hold *hold)
 //     while (x<WIDHT)
 //     {
 //         calc_intersect_wall(hold);
-//         calc_distance_wall_to_plane();
-//         draw_vertical_line();
+//         // calc_distance_wall_to_plane();
+//         // draw_vertical_line();
 //         x++;
 //     }
 // }
@@ -172,7 +209,7 @@ int main(int argc, char **argv)
     check_4_general_errors(argv, argc);
     init_structs(&hold, argv);
     initialize_mlx(&hold);
-    parse(hold.cub);
+    parse(hold, hold.cub);
 
     mlx_hook(hold.mlx_win, 2, 0, key_hook, &hold);
     mlx_loop_hook(hold.mlx, update_dot_position, &hold);

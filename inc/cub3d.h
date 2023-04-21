@@ -46,8 +46,8 @@
 // # define SPEED 5 // implement later if possible
 
 // maybe hc later in beginning of program:
-# define TILE_SIZE 100
-# define STEPS_PER_TILE 5
+# define TILE_SIZE 1
+# define STEPS_PER_TILE 10
 # define LINE_LEN TILE_SIZE/STEPS_PER_TILE
 
 // keycodes:
@@ -93,8 +93,8 @@ typedef struct s_cub
 	t_img	*img_south;
 	t_img	*img_west;
 	
-	double	player_pos_x;
-	double	player_pos_y;
+	// double	player_pos_x;
+	// double	player_pos_y;
 	int		map_pos_x;
 	int		map_pos_y;
 	double	wallx;
@@ -118,6 +118,8 @@ typedef struct s_cub
 }				t_cub;
 
 
+
+
 typedef struct s_hold
 {
 	void	*mlx;
@@ -132,6 +134,12 @@ typedef struct s_hold
 
 	float	pos[2];
 	float	look[2];
+	int32_t	map_pos[2];
+	int32_t	step[2];
+
+	float	delta_dist[2];
+	float	side_dist[2];
+	int32_t	side;
 
 	float	wall[2];
 	float angle;
@@ -142,6 +150,7 @@ typedef struct s_hold
 
 // ----------------------------------------------------------------------------
 //!		FUNCTIONS:
+void raycast(t_hold *hold);
 void draw_line(t_hold *hold, int x0, int y0, int x1, int y1, int color);
 void	my_mlx_pixel_put(t_hold *hold, int x, int y, int color);
 void init_minimap(t_hold *hold);
@@ -179,11 +188,11 @@ void	check_file(char *file);
 
 //!	CHEKMAP:
 //	00_
-void	valid_elem(t_cub *cub);
+void	valid_elem(t_hold *hold, t_cub *cub);
 void	map_closed(t_cub *cub);
 void	resize_line(t_cub *cub, int i);
 void	resize_map(t_cub *cub);
-void	check_map(t_cub *cub);
+void	check_map(t_hold *hold, t_cub *cub);
 //	01_
 void	map_closed_2(t_cub *cub, int i, int j);
 void	player_in_map(t_cub *cub, int i, int j);

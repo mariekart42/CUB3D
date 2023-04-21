@@ -10,6 +10,8 @@ draw_line(hold, hold->pos[0], hold->pos[1], (hold->look[0])*5, (hold->look[1])*5
 
 
     draw_my_map2(hold);
+    if(hold->go == true)
+        raycast(hold);
 	draw_looking_direction(hold);
 	put_info_on_window(hold);
     mlx_put_image_to_window(hold->mlx, hold->mlx_win, hold->player_img_ptr, hold->pos[0]-10, hold->pos[1]-10);
@@ -55,6 +57,7 @@ void calc_new_coordinate(t_hold *hold, int32_t keycode)
             - (hold->look[0] - store_x) * sin(pi_val(keycode, "sin"));
     hold->look[0] = hold->pos[0] + tmp[0];
     hold->look[1] = hold->pos[1] - tmp[1];
+    hold->go = true;
 }
 
 /* function calculates the new looking_direction based on the updated x and y values */
@@ -77,10 +80,12 @@ void calc_new_look_dir(t_hold *hold, int32_t keycode)
         hold->look[1] =hold->pos[1] + (hold->look[1] - hold->pos[1]) * cos(2*M_PI+hold->angle) \
                     - (store_x_look - hold->pos[0]) * sin(2*M_PI-hold->angle);
 	}
+    hold->go = false;
 }
 
 int32_t key_hook(int keycode, t_hold *hold)
 {
+    hold->go = false;
     if (keycode == ESCAPE)
         exit(0);
     if (keycode == A || keycode == W || keycode == S || keycode == D)
