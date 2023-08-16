@@ -53,8 +53,6 @@ CUB3D is a graphic project from the 42 School curriculum that aims to introduce 
    ```sh
    ./cub3D maps/map.cub
 
-
-
 ## Screenshots
 
 <p align="center">
