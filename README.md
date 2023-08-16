@@ -14,17 +14,12 @@ Welcome to CUB3D, a 42 School project inspired by the classic Wolfenstein 3D gam
 - [Getting Started](#getting-started)
 - [Usage](#usage)
 - [Screenshots](#screenshots)
-- [Contributing](#contributing)
-- [License](#license)
+
 
 ## About
 
 CUB3D is a graphic project from the 42 School curriculum that aims to introduce students to the concept of raycasting and the basics of game graphics programming. By using the miniLibX library, we create a simple game engine that renders a maze-like world using raycasting techniques.
 
-<p align="center">
-    <img src="screenshot1.png" alt="Screenshot 1" width="400">
-    <img src="screenshot2.png" alt="Screenshot 2" width="400">
-</p>
 
 ## Features
 
@@ -34,16 +29,30 @@ CUB3D is a graphic project from the 42 School curriculum that aims to introduce 
 - Customizable map layout via `.cub` files.
 - Efficient raycasting algorithm for real-time rendering.
 
+
 ## Getting Started
 
 1. Clone the repository:
    ```sh
    git clone https://github.com/yourusername/cub3d.git
 
+2. Navigate to the project folder:
+   ```sh
    cd cub3d
-
+   
+3. Compile the project:
+   ```sh
    make
 
+4. Run the game with a provided .cub map file:
+   ```sh
    ./cub3D maps/map.cub
 
+
+## Screenshots
+
+<p align="center">
+    <img src="screenshot1.png" alt="Screenshot 1" width="400">
+    <img src="screenshot2.png" alt="Screenshot 2" width="400">
+</p>
    
