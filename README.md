@@ -3,22 +3,26 @@
     <img src="cub3d_logo.png" alt="CUB3D Logo">
 </p>
 
+
 # CUB3D - 42 Project
 
 Welcome to CUB3D, a 42 School project inspired by the classic Wolfenstein 3D game. This project explores the fundamentals of raycasting and graphics programming in the C language.
+
+
 
 ## Table of Contents
 
 - [About](#about)
 - [Features](#features)
 - [Getting Started](#getting-started)
-- [Usage](#usage)
 - [Screenshots](#screenshots)
+
 
 
 ## About
 
 CUB3D is a graphic project from the 42 School curriculum that aims to introduce students to the concept of raycasting and the basics of game graphics programming. By using the miniLibX library, we create a simple game engine that renders a maze-like world using raycasting techniques.
+
 
 
 ## Features
@@ -28,6 +32,7 @@ CUB3D is a graphic project from the 42 School curriculum that aims to introduce 
 - Display textured walls, sprites, and dynamic lighting.
 - Customizable map layout via `.cub` files.
 - Efficient raycasting algorithm for real-time rendering.
+
 
 
 ## Getting Started
@@ -47,6 +52,7 @@ CUB3D is a graphic project from the 42 School curriculum that aims to introduce 
 4. Run the game with a provided .cub map file:
    ```sh
    ./cub3D maps/map.cub
+
 
 
 ## Screenshots
