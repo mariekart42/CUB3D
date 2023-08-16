@@ -39,7 +39,7 @@ CUB3D is a graphic project from the 42 School curriculum that aims to introduce 
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/yourusername/cub3d.git
+   git clone https://github.com/mariekart42/CUB3D.git
 
 2. Navigate to the project folder:
    ```sh
